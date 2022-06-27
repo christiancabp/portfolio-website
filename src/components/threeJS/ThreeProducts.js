@@ -29,8 +29,8 @@ class ThreeProducts extends Component {
       1000
     );
     this.camera.position.z = 10;
-    this.camera.position.y = -1;
-    this.camera.position.x = -1;
+    this.camera.position.y = 3;
+    this.camera.position.x = -5;
 
     // Test Box
     // const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
@@ -71,12 +71,13 @@ class ThreeProducts extends Component {
     // Lightsaber
 
     gltfLoader.load(
-      '../../../kylo_rens_lightsaber__star_wars_lightsaber/scene.gltf',
+      '../../../pacman_arcade__animation/scene.gltf',
       (gltf) => {
         // console.log(gltf);
-        gltf.scene.scale.set(40, 40, 40);
-        gltf.scene.position.x = -15;
-        gltf.scene.position.y = -18;
+        console.log('Success!');
+        gltf.scene.scale.set(0.15, 0.15, 0.15);
+        // gltf.scene.position.x = ;
+        gltf.scene.position.y = -5;
 
         mixer = new THREE.AnimationMixer(gltf.scene); // Animation handler
         const action = mixer.clipAction(gltf.animations[0]);
@@ -89,7 +90,7 @@ class ThreeProducts extends Component {
       },
       () => {
         // progress callback func
-        console.log('Progressing!');
+        console.log('Loading 3D model!');
       },
       () => {
         // error callback func
@@ -98,13 +99,13 @@ class ThreeProducts extends Component {
     );
 
     // Ambiant Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 20);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
     this.scene.add(ambientLight);
 
     // Directional light
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 20);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
     directionalLight.castShadow = true;
     directionalLight.shadow.mapSize.set(1024, 1024);
     directionalLight.shadow.camera.far = 15;
@@ -120,7 +121,7 @@ class ThreeProducts extends Component {
 
     const spotLight = new THREE.SpotLight(
       0xffffff,
-      20,
+      1,
       200,
       Math.PI * 0.2,
       0.25,
@@ -193,8 +194,6 @@ class ThreeProducts extends Component {
           <br />
           Product
         </h4>
-
-        <div></div>
       </div>
     );
   }

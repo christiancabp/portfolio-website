@@ -83,16 +83,16 @@ class ThreeScene extends Component {
       '../../../jedi_star_fighter/scene.gltf',
       (gltf) => {
         // console.log(gltf);
-
+        console.log('Success!');
         gltf.scene.scale.set(0.25, 0.25, 0.25);
         // gltf.scene.children[0].castShadow = true;        //Shadows not working for this 3D
-        // gltf.scene.receiveShadow = true;
-        // gltf.scene.castShadow = true;
+        gltf.scene.receiveShadow = true;
+        gltf.scene.castShadow = true;
         this.scene.add(gltf.scene);
       },
       () => {
         // progress callback func
-        console.log('Progressing!');
+        console.log('Loading 3D model!');
       },
       () => {
         // error callback func
@@ -136,7 +136,8 @@ class ThreeScene extends Component {
     this.scene.add(particles);
 
     // Ambiant Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 10);
+    // ambientLight.castShadow = true;
 
     this.scene.add(ambientLight);
 
@@ -164,6 +165,7 @@ class ThreeScene extends Component {
       1
     );
     // SpotLight(color, intentsity, distance, angle, penumbra, decay)
+    spotLight.castShadow = true;
     spotLight.position.set(50, 50, 30);
     //changing spotlight target
     // spotLight.target.position.x = -0.75;
