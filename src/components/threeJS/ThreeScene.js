@@ -82,7 +82,7 @@ class ThreeScene extends Component {
     gltfLoader.load(
       '../../../jedi_star_fighter/scene.gltf',
       (gltf) => {
-        console.log(gltf);
+        // console.log(gltf);
 
         gltf.scene.scale.set(0.25, 0.25, 0.25);
         // gltf.scene.children[0].castShadow = true;        //Shadows not working for this 3D

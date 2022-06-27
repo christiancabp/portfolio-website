@@ -1,0 +1,11 @@
+Model Information:
+* title:	Kylo Ren's lightsaber | Star Wars lightsaber
+* source:	https://sketchfab.com/3d-models/kylo-rens-lightsaber-star-wars-lightsaber-4227062690234d1fb5ed4b023260ca58
+* author:	IPfuentes (https://sketchfab.com/IPfuentes)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Kylo Ren's lightsaber | Star Wars lightsaber" (https://sketchfab.com/3d-models/kylo-rens-lightsaber-star-wars-lightsaber-4227062690234d1fb5ed4b023260ca58) by IPfuentes (https://sketchfab.com/IPfuentes) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
