@@ -8,9 +8,9 @@ const NavigationDots = ({ active }) => {
         'about',
         'work',
         'skills',
+        'three-scene',
         'testimonial',
         'contact',
-        'three-scene',
       ].map((item, index) => (
         //eslint-disable-next-line
         <a

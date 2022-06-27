@@ -17,7 +17,7 @@ class ThreeScene extends Component {
 
     const debugObject = {
       colorLight: 0x1e00ff,
-      colorStars: 0xffffff,
+      colorStars: 0x000000,
       spin: () => {
         console.log('spin');
 
@@ -45,8 +45,8 @@ class ThreeScene extends Component {
     this.scene = new THREE.Scene();
 
     // renderer
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth * 0.6, window.innerHeight * 0.6);
+    this.renderer = new THREE.WebGLRenderer({ alpha: true });
+    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -56,7 +56,7 @@ class ThreeScene extends Component {
     // Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
-      (window.innerWidth * 0.6) / (window.innerHeight * 0.6),
+      (window.innerWidth * 0.8) / (window.innerHeight * 0.8),
       0.5,
       1000
     );
@@ -136,13 +136,13 @@ class ThreeScene extends Component {
     this.scene.add(particles);
 
     // Ambiant Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 10);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 4);
 
     this.scene.add(ambientLight);
 
     // Directional light
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 6);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 4);
     directionalLight.castShadow = true;
     directionalLight.shadow.mapSize.set(1024, 1024);
     directionalLight.shadow.camera.far = 15;
@@ -157,7 +157,7 @@ class ThreeScene extends Component {
 
     const spotLight = new THREE.SpotLight(
       debugObject.colorLight,
-      6,
+      2,
       1000,
       Math.PI * 0.2,
       0.25,
@@ -170,6 +170,7 @@ class ThreeScene extends Component {
     // const spotHelper = new THREE.SpotLightHelper(spotLight);
 
     this.scene.add(spotLight); // if  helper or target needed add it here
+
     // gui
     gui
       .add(spotLight, 'intensity')
@@ -213,10 +214,10 @@ class ThreeScene extends Component {
   };
 
   handleWindowResize = () => {
-    this.camera.aspect = (window.innerWidth * 0.6) / (window.innerHeight * 0.6);
+    this.camera.aspect = (window.innerWidth * 0.8) / (window.innerHeight * 0.8);
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth * 0.6, window.innerHeight * 0.6);
+    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
     this.renderer.render(this.scene, this.camera);
   };
 
@@ -235,7 +236,7 @@ class ThreeScene extends Component {
           ref={(mount) => {
             this.mount = mount;
           }}
-          //   className='app__flex'
+          className='app__three-canvas'
         ></div>
       </div>
     );
