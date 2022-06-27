@@ -9,6 +9,7 @@ const NavigationDots = ({ active }) => {
         'work',
         'skills',
         'three-scene',
+        'three-products',
         'testimonial',
         'contact',
       ].map((item, index) => (

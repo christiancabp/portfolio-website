@@ -46,7 +46,7 @@ class ThreeScene extends Component {
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({ alpha: true });
-    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.6);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -56,7 +56,7 @@ class ThreeScene extends Component {
     // Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
-      (window.innerWidth * 0.8) / (window.innerHeight * 0.8),
+      (window.innerWidth * 0.8) / (window.innerHeight * 0.6),
       0.5,
       1000
     );
@@ -80,7 +80,7 @@ class ThreeScene extends Component {
     const gltfLoader = new GLTFLoader();
 
     gltfLoader.load(
-      '../../../scene.gltf',
+      '../../../jedi_star_fighter/scene.gltf',
       (gltf) => {
         console.log(gltf);
 
@@ -214,10 +214,10 @@ class ThreeScene extends Component {
   };
 
   handleWindowResize = () => {
-    this.camera.aspect = (window.innerWidth * 0.8) / (window.innerHeight * 0.8);
+    this.camera.aspect = (window.innerWidth * 0.8) / (window.innerHeight * 0.6);
     this.camera.updateProjectionMatrix();
 
-    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+    this.renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.6);
     this.renderer.render(this.scene, this.camera);
   };
 
@@ -236,7 +236,6 @@ class ThreeScene extends Component {
           ref={(mount) => {
             this.mount = mount;
           }}
-          className='app__three-canvas'
         ></div>
       </div>
     );

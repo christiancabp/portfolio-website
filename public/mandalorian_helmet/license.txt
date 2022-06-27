@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mandalorian Helmet
+* source:	https://sketchfab.com/3d-models/mandalorian-helmet-a8813ea1e0ce47ab97a416637a7520d7
+* author:	le0tard (https://sketchfab.com/le0tard)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mandalorian Helmet" (https://sketchfab.com/3d-models/mandalorian-helmet-a8813ea1e0ce47ab97a416637a7520d7) by le0tard (https://sketchfab.com/le0tard) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
