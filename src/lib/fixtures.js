@@ -16,7 +16,7 @@ export const profileFixture = {
   title: 'Software Developer',
   tagline: 'I build fast, accessible web applications.',
   bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic back-ends.',
-  email: 'christian.bermeo@pci.us',
+  email: 'hello@cbermeo.com',
   avatar,
   resumeUrl: '',
   socials: [
