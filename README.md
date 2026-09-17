@@ -45,16 +45,18 @@ Images referenced from Sanity documents are resolved with `imageUrl()` / `urlFor
 
 ## Sanity Studio (content admin)
 
-The content schemas and admin UI live in `backend_sanity/`, a **separate project with its own `package.json` and yarn** (not npm):
+The content schemas and admin UI live in `backend_sanity/`, a **separate project with its own `package.json` and npm** (not yarn):
 
 ```bash
 cd backend_sanity
-yarn install
-yarn start   # studio at http://localhost:3333
-yarn build
+npm install
+npx sanity login   # one-time browser auth
+npm run dev         # studio at http://localhost:3333
+npm run build
+npm run deploy
 ```
 
-Note: the Studio is currently still **Sanity Studio v2** (`sanity.json`, parts system, React 17) — a migration to v3/v8 and a matching content-model update is planned but not yet done. The frontend already queries/renders the *new* content shapes (profile, experience, education, etc.) via `src/lib/queries.js` and `src/lib/fixtures.js`; until the Studio migration lands, dev relies on fixtures for the shapes the current v2 Studio doesn't yet produce. See `backend_sanity/CLAUDE.md` for the current (v2) content model.
+This is the current Sanity Studio (`sanity@^6.15.0`, `sanity.config.ts`, `defineType` schemas under `schemaTypes/`), with a content model that matches what the frontend queries (profile, experience, education, work, about, skill — see `src/lib/queries.js` and `src/lib/fixtures.js`). No API token is involved: the Studio authenticates via `sanity login`, and the live site reads the `production` dataset anonymously (public dataset + CORS origins, see below). See `backend_sanity/CLAUDE.md` for the full content-model reference.
 
 ## Deploy (Netlify)
 

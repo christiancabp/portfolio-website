@@ -2,48 +2,55 @@
 
 Guidance for the Sanity content backend. See the root `CLAUDE.md` for the frontend that consumes this data.
 
-> **Frontend has migrated; this Studio has not (yet).** The root frontend has been modernized to Vite + Tailwind CSS v4 + dark mode, and already queries/renders a *new* content model (profile, experience, education, etc. — see root `CLAUDE.md` and `src/lib/queries.js`/`src/lib/fixtures.js`). This Studio is still **v2** with the **old** content model described below (`works`, `abouts`, `experiences`/`workExperience`, `testimonials`, `brands`, `contact`). A Studio v2 → v8 migration, including dropping `testimonials`/`brands` and adding the new document types, is **planned but not yet done**. Until then, the frontend's dev fixtures cover the shapes this Studio doesn't yet produce, and the content model below remains accurate for what actually exists in Sanity today.
-
 ## What this is
 
-The **Sanity Studio v2** (content admin UI + schema definitions) for the portfolio. It is a self-contained project with its **own `node_modules`, its own `package.json`, and yarn** (not npm). It shares the Sanity project `0bxjr1em` / dataset `production` with the frontend — the frontend reads this data at runtime via `src/client.js`.
+The **Sanity Studio** (content admin UI + schema definitions) for the portfolio. It is a self-contained project with its own `node_modules`, its own `package.json`, and **npm** (not yarn). It shares the Sanity project `0bxjr1em` / dataset `production` with the frontend — the frontend reads this data at runtime via `src/lib/sanity.js`.
 
 ```bash
-yarn start   # sanity start → studio at http://localhost:3333
-yarn build   # sanity build
+npx sanity login   # one-time browser auth, needed before first dev/deploy
+npm run dev         # sanity dev → studio at http://localhost:3333
+npm run build        # sanity build
+npm run deploy        # sanity deploy
 ```
 
-## Studio v2 — not v3
+There is no access token anywhere in this project or the frontend: the Studio authenticates interactively via `sanity login`, and the live site reads the `production` dataset anonymously (it's public — see root `README.md` for the CORS/visibility setup).
 
-This is the **legacy Studio v2 architecture**, which is structurally different from current Sanity docs (v3+):
+## Current Sanity Studio (v6, not legacy v2)
 
-- Config lives in **`sanity.json`** (project id, dataset, plugins, `parts`) — there is no `sanity.config.js`.
-- Schemas are wired through the **parts system**: `sanity.json` points to `schemas/schema.js`, which imports `part:@sanity/base/schema-creator` and `concat`s every document type.
-- Deps are `@sanity/base@^2` etc., and the Studio runs on **React 17** (the frontend is React 18). Don't assume v3 APIs (`defineType`, `sanity.config.ts`, `structureTool`) — they don't apply here. Migrating to v3 would be a full rewrite, not an incremental change.
+This runs the current Sanity Studio architecture:
+
+- Config lives in **`sanity.config.ts`**, built with `defineConfig` — project id, dataset, and plugins (`structureTool`, `visionTool`) are declared there. `sanity.cli.ts` (via `defineCliConfig`) holds the project id/dataset the CLI itself uses for `dev`/`build`/`deploy`.
+- Schemas are plain TypeScript modules under `schemaTypes/`, each built with `defineType`/`defineField` and exported from `schemaTypes/index.ts` as the `schemaTypes` array, which is passed straight into `defineConfig({ schema: { types: schemaTypes } })`. There is no parts system and no `sanity.json`.
+- Deps are `sanity@^6.15.0` and `@sanity/vision@^6.15.0`, and the Studio runs on **React 19** (matches the frontend's React version). Note: the globally-installed `@sanity/cli` package version (8.x) is independent of the `sanity` library version used by this Studio — they're versioned separately and 8.x tooling running a 6.x Studio is expected/normal.
+- `structureTool` is configured with a custom structure (`sanity.config.ts`) that pins **Profile** as a singleton list item (`S.document().schemaType('profile').documentId('profile')`) above a divider, followed by the regular document-type list for everything else.
 
 ## Adding or changing a schema
 
-1. Create `schemas/<type>.js` exporting a default `{ name, title, type: 'document', fields: [...] }` object.
-2. Import it in `schemas/schema.js` and add it to the `.concat([...])` array. **Both steps are required** — a file that isn't concatenated is invisible to the Studio.
-3. If the frontend consumes the type, update the corresponding container in `src/container/` too — field names are matched by exact string, there's no shared type contract.
+1. Create `schemaTypes/<type>.ts` exporting a default `defineType({...})` (see any existing file for the pattern — `defineField` for individual fields, `preview`/`orderings` as needed).
+2. Import it in `schemaTypes/index.ts` and add it to the `schemaTypes` array. **Both steps are required** — a type that isn't in that array is invisible to the Studio and to `defineConfig`.
+3. If the frontend consumes the type, update the corresponding GROQ query in `src/lib/queries.js` (root project) too — field names are matched by exact string, there's no shared type contract between Studio and frontend.
 
 ## Content model
 
-Each document type, its fields, and where the frontend reads it:
+Six document types, matching what the frontend queries (`src/lib/queries.js`) and renders (`src/lib/fixtures.js` for dev fallbacks):
 
-| Type             | Fields                                              | Consumed by (frontend)        |
-|------------------|----------------------------------------------------|-------------------------------|
-| `works`          | title, description, projectLink, codeLink, `imgUrl`, tags[] | `container/Work` |
-| `abouts`         | title, description, `imgUrl`                        | `container/About`             |
-| `skills`         | name, bgColor, icon (image)                         | `container/Skills`            |
-| `experiences`    | year, works[] → inline `workExperience` objects     | `container/Skills`            |
-| `workExperience` | name, company, desc                                | embedded in `experiences`     |
-| `testimonials`   | name, company, `imgurl`, feedback                  | `container/Testimonial`       |
-| `brands`         | `imgUrl`, name                                      | `container/Testimonial`       |
-| `contact`        | name, email, message (text)                        | **written** by `container/Footer` |
+| Type         | Fields                                                                                          | Notes |
+|--------------|--------------------------------------------------------------------------------------------------|-------|
+| `profile`    | name, title, tagline, bio, email, avatar (image), resumePdf (file), socials[] (`{platform, url}`) | Singleton — pinned in the Studio structure with a fixed `documentId('profile')`. |
+| `experience` | role, company, companyUrl, location, startDate, endDate, current (bool), highlights[], logo (image) | Ordered newest-start-first; preview shows role/company. |
+| `education`  | school, degree, field, location, startDate, endDate, description, logo (image)                   | Ordered newest-end-first; preview shows school/degree. |
+| `work`       | title, description, image, projectLink, codeLink, tags[]                                         | Titled "Project" in the Studio UI; preview shows title/image. |
+| `about`      | title, description, image                                                                        | Plain document type, not a singleton — multiple `about` items are expected. |
+| `skill`      | name, category (`Frontend`/`Backend`/`Tools`/`Other`), icon (image), bgColor                      | Preview shows name/category/icon. |
 
-### Gotchas in the content model
+Image fields are normalized across all types (`image`/`avatar`/`logo`/`icon`) — there is no more `imgUrl`/`imgurl` casing inconsistency.
 
-- **Image field casing is inconsistent.** Every image field is `imgUrl` **except `testimonials`, which is `imgurl`** (lowercase). The frontend reads each with its exact casing (`test.imgurl` vs `brand.imgUrl`). If you rename to normalize, you must change the schema, the frontend read, and migrate existing documents together — otherwise images silently break.
-- **`contact` is write-only from the app.** The Footer form calls `client.create({ _type: 'contact', ... })`. This means the frontend's `REACT_APP_SANITY_TOKEN` needs **write (Editor) permission**, and submitted messages appear as `contact` documents in the Studio. Nothing reads them back.
-- **`workExperience` is both a document type and an inline object.** `experiences.works` embeds it via `of: [{ type: 'workExperience' }]`. Edit experience entries through the parent `experiences` document, not as standalone `workExperience` documents.
+### Gone from the old (Studio v2) content model
+
+The previous content model — `works`, `abouts` (as a distinct type from today's `about`), `experiences`/`workExperience`, `testimonials`, `brands`, and `contact` — no longer exists in the schema. In particular:
+
+- `testimonials` and `brands` were dropped entirely (no frontend section consumes them anymore).
+- `contact` (the write-only document type the old Footer form used to `client.create()` into) is gone; the current contact form uses Netlify Forms instead (see root `CLAUDE.md`).
+- `experiences`/`workExperience` was replaced by the flat `experience` document type above.
+
+**No data migration was performed** as part of this schema migration — only the schema/config code changed. Old v2 documents of the removed types may still linger in the `production` dataset; they're simply not addressable by any current schema type and can be deleted from the Studio's document list if found.

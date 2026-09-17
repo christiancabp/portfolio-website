@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A single-page personal portfolio site built with **Vite + React 18 + Tailwind CSS v4**. Content is sourced from a Sanity CMS with dev-only fixture fallbacks. The repo contains **two independent projects** with different package managers:
 
 - **`/`** (root) — the React/Vite frontend (npm)
-- **`/backend_sanity`** — the Sanity Studio that defines the content schemas and admin UI (yarn). It is currently **Studio v2**, not yet migrated to v3/v8 — see `backend_sanity/CLAUDE.md`.
+- **`/backend_sanity`** — the Sanity Studio that defines the content schemas and admin UI (npm). It runs the **current Sanity Studio** (`sanity@^6.15.0`) with a content model matching what the frontend queries — see `backend_sanity/CLAUDE.md`.
 
 ## Commands
 
@@ -19,7 +19,7 @@ npm test             # Vitest, run once
 npm run test:watch   # Vitest, watch mode
 ```
 
-Sanity Studio (from `backend_sanity/`): `yarn start` (studio at `:3333`), `yarn build`.
+Sanity Studio (from `backend_sanity/`): `npx sanity login` (one-time auth), then `npm run dev` (`sanity dev`, studio at `:3333`), `npm run build`, `npm run deploy`.
 
 ## Architecture
 
