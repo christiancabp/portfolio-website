@@ -554,11 +554,13 @@ git commit -m "feat: add theme toggle"
 
 ---
 
-## PHASE 5 — Sanity Studio v3 migration + content model (`backend_sanity/`)
+## PHASE 5 — Sanity Studio migration to latest (v8) + content model (`backend_sanity/`)
 
-> This phase is isolated: it only touches `backend_sanity/`. Do it before rebuilding sections (Phase 8) so sections target the final shapes. All commands run from `backend_sanity/`.
+> ⏸ **DEFERRED** (frontend-first) — run after Phase 10. Isolated to `backend_sanity/`; all commands run from there. The frontend already targets the final content shapes via fixtures (Task 7.2), so this phase makes the real backend match.
+>
+> Studio is currently **v2.30.2**; latest is **8.11.0**. NOTE: `sanity upgrade` only bumps *within v2* — it does NOT perform the v2→v3+ jump. That jump is a manual migration (new `sanity.config.ts`, `defineConfig`, `defineType` schemas). The v3+ architecture shown below is unchanged through v8 — just install the current major (`sanity@latest`) and verify peer deps (React 18/19).
 
-### Task 5.1: Replace v2 config with v3
+### Task 5.1: Replace the v2 config with the latest Studio (v8)
 
 **Files:**
 - Delete: `backend_sanity/sanity.json`, `backend_sanity/schemas/`
@@ -570,11 +572,11 @@ From `backend_sanity/`:
 ```bash
 rm -rf node_modules yarn.lock package-lock.json
 ```
-Rewrite `backend_sanity/package.json`:
+Rewrite `backend_sanity/package.json` (pin exact majors at migration time from what `npm install` resolves — `sanity@latest` is currently 8.x):
 ```json
 {
   "name": "chris-portfolio-studio",
-  "version": "3.0.0",
+  "version": "8.0.0",
   "private": true,
   "scripts": {
     "dev": "sanity dev",
@@ -582,17 +584,17 @@ Rewrite `backend_sanity/package.json`:
     "deploy": "sanity deploy"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sanity": "^3",
-    "@sanity/vision": "^3",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "sanity": "^8",
+    "@sanity/vision": "^8",
     "styled-components": "^6"
   }
 }
 ```
-Then:
+Then install (let npm resolve exact versions, adjust React if v8 peer-requires 19):
 ```bash
-npm install
+npm install sanity@latest @sanity/vision@latest styled-components react react-dom
 ```
 
 - [ ] **Step 2: Create `backend_sanity/sanity.cli.ts`**

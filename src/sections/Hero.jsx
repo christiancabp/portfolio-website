@@ -57,7 +57,7 @@ export default function Hero() {
 
           <Reveal delay={0.08}>
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-text sm:text-5xl lg:text-6xl">
-              <span className="block">Hey I'm Christian, your friendly</span>
+              <span className="block">Hello, I'm Christian, your friendly</span>
               <span className="block">neighborhood</span>
               {/* Role gets its own height-locked line: leading-[1.05] on a min-h of one line
                   reserves exactly one line of vertical space, so word-length changes never
