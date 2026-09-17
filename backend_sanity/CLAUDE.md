@@ -2,6 +2,8 @@
 
 Guidance for the Sanity content backend. See the root `CLAUDE.md` for the frontend that consumes this data.
 
+> **Frontend has migrated; this Studio has not (yet).** The root frontend has been modernized to Vite + Tailwind CSS v4 + dark mode, and already queries/renders a *new* content model (profile, experience, education, etc. — see root `CLAUDE.md` and `src/lib/queries.js`/`src/lib/fixtures.js`). This Studio is still **v2** with the **old** content model described below (`works`, `abouts`, `experiences`/`workExperience`, `testimonials`, `brands`, `contact`). A Studio v2 → v8 migration, including dropping `testimonials`/`brands` and adding the new document types, is **planned but not yet done**. Until then, the frontend's dev fixtures cover the shapes this Studio doesn't yet produce, and the content model below remains accurate for what actually exists in Sanity today.
+
 ## What this is
 
 The **Sanity Studio v2** (content admin UI + schema definitions) for the portfolio. It is a self-contained project with its **own `node_modules`, its own `package.json`, and yarn** (not npm). It shares the Sanity project `0bxjr1em` / dataset `production` with the frontend — the frontend reads this data at runtime via `src/client.js`.

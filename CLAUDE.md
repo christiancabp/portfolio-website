@@ -4,74 +4,68 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-A single-page personal portfolio site built with Create React App. Content is sourced from a Sanity CMS. The repo contains **two independent projects** with different package managers:
+A single-page personal portfolio site built with **Vite + React 18 + Tailwind CSS v4**. Content is sourced from a Sanity CMS with dev-only fixture fallbacks. The repo contains **two independent projects** with different package managers:
 
-- **`/`** (root) — the React frontend (npm, `react-scripts`)
-- **`/backend_sanity`** — the Sanity Studio v2 that defines the content schemas and admin UI (yarn). See `backend_sanity/CLAUDE.md` for the content model and schema conventions.
+- **`/`** (root) — the React/Vite frontend (npm)
+- **`/backend_sanity`** — the Sanity Studio that defines the content schemas and admin UI (yarn). It is currently **Studio v2**, not yet migrated to v3/v8 — see `backend_sanity/CLAUDE.md`.
 
 ## Commands
 
-Frontend (run from repo root):
-
 ```bash
-npm start        # dev server at http://localhost:3000
-npm run build    # production build to /build
-npm test         # Jest via react-scripts (watch mode); e.g. npm test -- Work.test.js
+npm run dev          # Vite dev server at http://localhost:5173
+npm run build        # production build to dist/
+npm run preview      # preview the production build
+npm test             # Vitest, run once
+npm run test:watch   # Vitest, watch mode
 ```
 
-Sanity Studio (run from `backend_sanity/`):
-
-```bash
-yarn start       # sanity start — studio at http://localhost:3333
-yarn build       # sanity build
-```
-
-There are currently **no test files** in the repo despite `npm test` being wired up.
-
-## Environment
-
-`src/client.js` reads two vars from `.env` (gitignored, present locally):
-
-- `REACT_APP_SANITY_PROJECT__ID` — note the **double underscore**
-- `REACT_APP_SANITY_TOKEN`
-
-The Sanity project/dataset is `0bxjr1em` / `production` (see `backend_sanity/sanity.json`). Without valid env vars, content sections render empty (fetches fail silently).
+Sanity Studio (from `backend_sanity/`): `yarn start` (studio at `:3333`), `yarn build`.
 
 ## Architecture
 
-### Section + HOC composition
+### Styling: Tailwind v4 tokens, not SCSS
 
-`src/App.js` renders every page section in order. Each section is a container in `src/container/<Name>/` that is exported already wrapped in two higher-order components from `src/wrapper/`:
+Tailwind is wired in via the `@tailwindcss/vite` plugin (`vite.config.js`) — there's no `tailwind.config.js`; everything is CSS-first in `src/index.css`. Design tokens (`--bg`, `--surface`, `--text`, `--muted`, `--accent`, `--accent-hover`, `--border`) are plain CSS custom properties, redefined under `.dark`, then re-exposed as Tailwind color utilities via `@theme inline` (e.g. `--color-accent: var(--accent)` → use `text-accent`, `bg-bg`, `border-border` as normal utility classes). Because `@theme inline` reads the *live* variable, the same utility classes automatically repaint for dark mode — components never branch on theme in JS for color. There is no SCSS anywhere in this codebase.
 
-```js
-export default AppWrap(MotionWrap(Work, 'app__works'), 'work', 'app__primarybg');
-```
+### Dark mode
 
-- **`AppWrap(Component, idName, classNames)`** — wraps the section in a full-height `<div id={idName}>` and injects the shared `SocialMedia`, copyright, and `NavigationDots` chrome. The `idName` is load-bearing: it becomes the DOM anchor id, the value `NavigationDots` uses to mark the active dot, and the target of `Navbar` links. When adding a section, its `idName` must match the navigation entry.
-- **`MotionWrap(Component, classNames)`** — adds the standard framer-motion `whileInView` fade/slide-up.
+Class-strategy dark mode, toggled by adding/removing `.dark` on `<html>`:
 
-Order matters: `AppWrap` is the outer wrapper, `MotionWrap` the inner. Some sections (e.g. the Three.js ones) skip `MotionWrap`.
+- `src/context/ThemeProvider.jsx` owns the `theme` state, flips the `dark` class, and persists to `localStorage` on every change.
+- `src/lib/theme.js` (`resolveInitialTheme`) picks the initial theme: stored preference wins, otherwise `prefers-color-scheme`.
+- `index.html` has an inline `<script>` (before React mounts) that applies the same logic synchronously to avoid a flash of the wrong theme.
+- `ThemeToggle` (in the Navbar) calls `useTheme().toggle()`.
 
-### Content flow
+If you touch theme init logic, keep `resolveInitialTheme` and the inline `index.html` script in sync — they intentionally duplicate the same decision so the pre-hydration paint matches React's first render.
 
-Content containers fetch from Sanity at mount with GROQ and render the results:
+### Composition and shared primitives
 
-```js
-client.fetch('*[_type == "works"]').then(setWorks);
-```
+`src/main.jsx` wraps `<App>` in `ThemeProvider`. `App.jsx` is a flat list: `Navbar` + `Hero, About, Experience, Projects, Skills, Education, Contact` sections + `Footer`. There is no HOC-wrapping layer (no AppWrap/MotionWrap) — each section is a plain component that composes shared primitives directly:
 
-Images use `urlFor(source)` from `src/client.js` (a `@sanity/image-url` builder). The document types (`works`, `abouts`, `skills`, `testimonials`, `brands`, `experiences`, `workExperience`, `contact`) are defined in `backend_sanity/schemas/` and registered in `schema.js`. **Changing a content shape means editing both** the Sanity schema and the consuming container.
+- **`Section`** (`src/components/Section.jsx`) — standard `<section>` shell (id, max-width, padding, optional eyebrow/title header). Sections use this for consistent spacing/anchors instead of each rolling its own layout.
+- **`Reveal`** (`src/components/Reveal.jsx`) — `motion/react` fade+slide-up on scroll into view (`whileInView`, `once: true`). This is the standard entrance animation; use it rather than ad hoc `motion.div` variants.
+- **`TimelineEntry`** (`src/components/TimelineEntry.jsx`) — shared rail/node/card layout used by both Experience and Education so the two sections render identically.
+- **`GlitchText`** (`src/components/GlitchText.jsx`) — the Hero's role-cycling text scrambles between words on an interval (`requestAnimationFrame`-driven), honors `prefers-reduced-motion` by snapping instead of scrambling. Cycling index math lives in `src/lib/glitch.js` (`nextIndex`) so it's unit-testable outside the animation loop.
 
-### Three.js scenes
+Animation uses `motion` (the Framer Motion successor package, imported from `motion/react`), not `framer-motion`.
 
-`src/components/threeJS/ThreeScene.js` and `ThreeProducts.js` are **vanilla Three.js written as React class components** — all setup happens imperatively in `componentDidMount`, appending a `<canvas>` to a `ref`'d mount div. They do **not** use `@react-three/fiber`/`drei` even though those are dependencies. `ThreeScene` also mounts a `lil-gui` debug panel.
+### Content flow: Sanity + dev fixtures
 
-Two gotchas here:
-- **GLTF models load from `/public`** via runtime paths like `'../../../jedi_star_fighter/scene.gltf'`. These resolve against the page URL, not the module — the `../` segments clamp to the site root, landing on the `public/` model folders. Keep model folders in `public/` and reference them this way.
-- **`React.StrictMode` is intentionally disabled** in `src/index.js` (commented out). StrictMode's double-mount breaks the imperative `componentDidMount` Three.js setup (double canvases / GUIs). Don't re-enable it without refactoring the scenes.
+`src/lib/sanity.js` creates the Sanity `client` (project `0bxjr1em` / dataset `production`, both **defaulted** in code so a missing env var never crashes production — override via `VITE_SANITY_PROJECT_ID`/`VITE_SANITY_DATASET`) and exposes `urlFor`/`imageUrl` for resolving Sanity image refs. `src/lib/queries.js` holds the GROQ query strings (`PROFILE`, `ABOUTS`, `EXPERIENCES`, `PROJECTS`, `SKILLS`, `EDUCATION`).
 
-### Conventions
+Data fetching is layered:
 
-- Barrel `index.js` files re-export each directory's modules (`container/`, `components/`, `wrapper/`, `constants/`).
-- `src/constants/images.js` centralizes all imported image assets; import from `constants` rather than referencing `src/assets/` directly.
-- Styling is SCSS (`node-sass`), one `.scss` per component. Shared global classes (`app__flex`, `head-text`, `p-text`, `bold-text`, `app__primarybg`, `app__container`) live in `src/App.scss` and are relied on across sections.
+- `useSanity(query, params)` (`src/hooks/useSanity.js`) — thin wrapper around `client.fetch`, tracks `data`/`loading`/`error`.
+- `useContent(query, fixture)` (`src/hooks/useContent.js`) — calls `useSanity`, then runs the result through `pickContent` (`src/lib/content.js`): if Sanity's result is empty/null **and** `import.meta.env.DEV` is true, it falls back to a static fixture from `src/lib/fixtures.js`. **In production this fallback never fires** — an empty Sanity dataset means an empty section, by design (no fake content ever ships).
+
+This means the site is fully browsable in local dev even with no Sanity data configured, but you should not rely on fixtures matching what's actually in production Sanity — always sanity-check (no pun intended) real content shapes against `src/lib/queries.js` when changing a section's expected fields.
+
+`src/lib/format.js` has small presentation adapters consumed by sections: `groupByCategory` (Skills) and `formatDateRange` (Experience/Education, "Mon YYYY — Present" style).
+
+### Contact form: Netlify Forms, no backend
+
+`Contact.jsx` submits via a POST to `/` with `Content-Type: application/x-www-form-urlencoded`, body built by `encode()` (`src/lib/netlify.js`) — the vanilla Netlify Forms pattern, not a custom API. `index.html` contains a hidden static `<form name="contact" netlify ...>` purely so Netlify's build-time crawler can detect the form's fields (Netlify only picks up forms present in the built HTML, not ones rendered later by React). The real, interactive form in `Contact.jsx` must keep its field `name`s in sync with that hidden form. There's no server code and no Sanity write token involved in the contact flow — submissions land in Netlify's Forms dashboard, routed by email notification.
+
+### Deploy
+
+Netlify, custom domain `cbermeo.com`. `netlify.toml`: build `npm run build`, publish `dist`, SPA redirect (`/*` → `/index.html`), Node 20 pinned for the build environment. Getting live content and form delivery working on a fresh Netlify site also requires dashboard-side setup (public Sanity dataset, Sanity CORS origins, Netlify Forms notification email) — see `README.md` for the checklist.
