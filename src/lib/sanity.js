@@ -10,3 +10,9 @@ export const client = createClient({
 
 const builder = imageUrlBuilder(client)
 export const urlFor = (source) => builder.image(source)
+
+export function imageUrl(source, width = 800) {
+  if (!source) return ''
+  if (typeof source === 'string') return source // fixture URL string
+  return builder.image(source).width(width).url() // Sanity image ref
+}
