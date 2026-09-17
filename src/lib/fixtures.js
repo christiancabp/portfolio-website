@@ -1,15 +1,17 @@
-import avatar from '../assets/profile.png'
-import reactIcon from '../assets/react.png'
-import nodeIcon from '../assets/node.png'
-import jsIcon from '../assets/javascript.png'
-import cssIcon from '../assets/css.png'
-import htmlIcon from '../assets/html.png'
-import sassIcon from '../assets/sass.png'
-import reduxIcon from '../assets/redux.png'
-import gitIcon from '../assets/git.png'
-import proj1 from '../assets/about01.png'
-import proj2 from '../assets/about02.png'
-import proj3 from '../assets/about03.png'
+// Fixture images live in /public/images and are referenced by absolute URL.
+// imageUrl() passes string paths through unchanged, so these work in dev and prod.
+const avatar = '/images/profile.png'
+const reactIcon = '/images/react.png'
+const nodeIcon = '/images/node.png'
+const jsIcon = '/images/javascript.png'
+const cssIcon = '/images/css.png'
+const htmlIcon = '/images/html.png'
+const sassIcon = '/images/sass.png'
+const reduxIcon = '/images/redux.png'
+const gitIcon = '/images/git.png'
+const proj1 = '/images/about01.png'
+const proj2 = '/images/about02.png'
+const proj3 = '/images/about03.png'
 
 export const profileFixture = {
   name: 'Christian Bermeo',
