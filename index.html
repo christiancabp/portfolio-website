@@ -5,6 +5,17 @@
     <link rel="icon" href="/chris-logo2.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Christian Bermeo — Software Developer</title>
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (s === 'dark' || (s !== 'light' && d)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
