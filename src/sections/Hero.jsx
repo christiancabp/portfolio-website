@@ -13,9 +13,10 @@ export default function Hero() {
     profileFixture,
   )
 
-  if (!profile) return <section id="hero" className="min-h-[60vh]" />
-
-  const avatar = profile.avatar ? imageUrl(profile.avatar, 240) : ''
+  // The headline + glitch are hardcoded and must always render (e.g. before any
+  // Sanity content exists in production); only profile-derived extras are conditional.
+  const p = profile || {}
+  const avatar = p.avatar ? imageUrl(p.avatar, 240) : ''
 
   return (
     <section
@@ -71,10 +72,10 @@ export default function Hero() {
             </h1>
           </Reveal>
 
-          {(profile.tagline || profile.bio) && (
+          {(p.tagline || p.bio) && (
             <Reveal delay={0.16}>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-                {profile.tagline || profile.bio}
+                {p.tagline || p.bio}
               </p>
             </Reveal>
           )}
@@ -94,9 +95,9 @@ export default function Hero() {
               >
                 View projects
               </a>
-              {profile.resumeUrl && (
+              {p.resumeUrl && (
                 <a
-                  href={profile.resumeUrl}
+                  href={p.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
@@ -119,7 +120,7 @@ export default function Hero() {
               />
               <img
                 src={avatar}
-                alt={profile.name || 'Profile'}
+                alt={p.name || 'Profile'}
                 width={176}
                 height={176}
                 loading="eager"
