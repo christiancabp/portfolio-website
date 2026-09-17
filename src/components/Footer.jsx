@@ -23,13 +23,21 @@ export default function Footer() {
     <footer className="border-t border-border">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:justify-between">
         <div className="text-center sm:text-left">
-          {name && (
-            <p className="text-sm font-semibold tracking-tight text-text">{name}</p>
-          )}
+          {/* Signature terminal prompt — the footer's one flourish. */}
+          <p className="font-mono text-sm text-text">
+            <span className="text-accent">cbermeo:~$</span>{' '}
+            <span className="text-muted">thanks for visiting</span>
+            <span
+              aria-hidden="true"
+              className="caret-blink ml-0.5 inline-block text-accent"
+            >
+              _
+            </span>
+          </p>
           {email && (
             <a
               href={`mailto:${email}`}
-              className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
+              className="mt-2 inline-flex items-center gap-1.5 font-mono text-sm text-muted underline-offset-4 transition-colors hover:text-accent hover:underline"
             >
               <FiMail size={14} aria-hidden="true" />
               {email}
@@ -61,7 +69,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <p className="mx-auto w-full max-w-5xl px-6 py-5 text-center text-xs text-muted">
+        <p className="mx-auto w-full max-w-5xl px-6 py-5 text-center font-mono text-xs tracking-wide text-muted">
           © 2026{name ? ` ${name}` : ''}
         </p>
       </div>

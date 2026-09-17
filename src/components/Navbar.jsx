@@ -19,17 +19,22 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-6">
         <a
           href="#hero"
-          className="text-lg font-bold tracking-tight text-text transition-colors hover:text-accent"
+          className="group inline-flex items-baseline font-mono text-base font-medium tracking-tight text-text transition-colors hover:text-accent"
+          aria-label="Home"
         >
-          CB
+          <span className="text-accent">~/</span>
+          <span>cb</span>
+          <span aria-hidden="true" className="caret-blink ml-0.5 text-accent">
+            _
+          </span>
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-7 md:flex">
           {LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted transition-colors hover:text-text"
+              className="link-underline font-mono text-sm font-medium lowercase text-muted transition-colors hover:text-text"
             >
               {link.label}
             </a>
@@ -59,7 +64,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-border/60 py-3 text-sm font-medium text-muted transition-colors last:border-none hover:text-text"
+                className="border-b border-border/60 py-3 font-mono text-sm font-medium lowercase text-muted transition-colors last:border-none hover:text-text"
               >
                 {link.label}
               </a>

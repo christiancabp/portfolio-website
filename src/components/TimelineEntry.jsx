@@ -65,7 +65,7 @@ export default function TimelineEntry({
                       href={subtitleUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium text-accent underline-offset-4 hover:underline"
+                      className="link-underline font-medium text-accent"
                     >
                       {subtitle}
                     </a>
@@ -73,7 +73,7 @@ export default function TimelineEntry({
                     <span className="font-medium text-text">{subtitle}</span>
                   )}
                   {location && (
-                    <span className="text-muted">
+                    <span className="font-mono text-xs text-muted">
                       {' '}
                       &middot; {location}
                     </span>
@@ -81,7 +81,7 @@ export default function TimelineEntry({
                 </p>
               )}
               {!subtitle && location && (
-                <p className="mt-0.5 text-sm text-muted">{location}</p>
+                <p className="mt-0.5 font-mono text-xs text-muted">{location}</p>
               )}
             </div>
             {dateRange && (

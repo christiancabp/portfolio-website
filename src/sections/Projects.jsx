@@ -11,7 +11,7 @@ export default function Projects() {
   const items = projects || []
 
   return (
-    <Section id="projects" eyebrow="Selected work" title="Projects">
+    <Section id="projects" index={3} eyebrow="Selected work" title="Projects">
       {items.length === 0 ? (
         <p className="text-muted">No projects to show yet.</p>
       ) : (
@@ -78,7 +78,7 @@ export default function Projects() {
                         {tags.map((tag, ti) => (
                           <li
                             key={`${tag}-${ti}`}
-                            className="rounded-full border border-border bg-bg px-2.5 py-0.5 text-xs font-medium text-muted"
+                            className="rounded-full border border-border bg-bg px-2.5 py-0.5 font-mono text-xs text-muted"
                           >
                             {tag}
                           </li>

@@ -22,7 +22,7 @@ export default function Skills() {
   ]
 
   return (
-    <Section id="skills" eyebrow="What I work with" title="Skills">
+    <Section id="skills" index={4} eyebrow="What I work with" title="Skills">
       {categories.length === 0 ? (
         <p className="text-muted">No skills to show yet.</p>
       ) : (
@@ -30,8 +30,8 @@ export default function Skills() {
           {categories.map((category, ci) => (
             <Reveal key={category} delay={ci * 0.06}>
               <div>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted">
-                  {category}
+                <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
+                  <span className="text-accent/50">#</span> {category}
                 </h3>
                 <ul className="flex flex-wrap gap-2.5">
                   {groups[category].map((skill, si) => {

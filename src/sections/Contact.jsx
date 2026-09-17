@@ -46,7 +46,7 @@ export default function Contact() {
   }
 
   return (
-    <Section id="contact" eyebrow="Say hello" title="Get in touch">
+    <Section id="contact" index={6} eyebrow="Say hello" title="Get in touch">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_1.4fr] lg:gap-16">
         <Reveal>
           <div className="max-w-md">
@@ -64,10 +64,10 @@ export default function Contact() {
                   <FiMail size={17} aria-hidden="true" />
                 </span>
                 <span>
-                  <span className="block text-xs uppercase tracking-widest text-muted">
+                  <span className="block font-mono text-xs uppercase tracking-widest text-muted">
                     Email
                   </span>
-                  {email}
+                  <span className="font-mono">{email}</span>
                 </span>
               </a>
             )}
@@ -161,10 +161,10 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={sending}
-                className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-70"
+                className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <FiSend size={16} aria-hidden="true" />
-                {sending ? 'Sending…' : 'Send message'}
+                {sending ? 'sending…' : 'send message'}
               </button>
 
               <div aria-live="polite" className="min-h-[1.25rem] text-sm">

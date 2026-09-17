@@ -10,7 +10,7 @@ export default function Experience() {
   const items = experiences || []
 
   return (
-    <Section id="experience" eyebrow="Where I've worked" title="Experience">
+    <Section id="experience" index={2} eyebrow="Where I've worked" title="Experience">
       {items.length === 0 ? (
         <p className="text-muted">No experience to show yet.</p>
       ) : (

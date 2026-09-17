@@ -10,7 +10,7 @@ export default function About() {
   const items = abouts || []
 
   return (
-    <Section id="about" eyebrow="Who I am" title="About">
+    <Section id="about" index={1} eyebrow="Who I am" title="About">
       <Reveal>
         <p className="max-w-2xl text-lg leading-relaxed text-muted">
           I&apos;m a full-stack developer who cares about the details — clean interfaces,

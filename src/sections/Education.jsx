@@ -14,7 +14,7 @@ export default function Education() {
     [item.degree, item.field].filter(Boolean).join(' in ')
 
   return (
-    <Section id="education" eyebrow="What I studied" title="Education">
+    <Section id="education" index={5} eyebrow="What I studied" title="Education">
       {items.length === 0 ? (
         <p className="text-muted">No education to show yet.</p>
       ) : (

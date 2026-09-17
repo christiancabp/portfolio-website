@@ -57,6 +57,15 @@ export default function Hero() {
                   reflow the copy above or below. whitespace-nowrap keeps each role on one line. */}
               <span className="block min-h-[1.05em] whitespace-nowrap text-accent">
                 <GlitchText words={ROLES} />
+                {/* Terminal caret trails the role. Inline-block with no width
+                    contribution to layout beyond the glyph itself; the line is
+                    already height-locked, so this adds no vertical shift. */}
+                <span
+                  aria-hidden="true"
+                  className="caret-blink ml-1.5 inline-block font-mono font-normal text-accent"
+                >
+                  _
+                </span>
               </span>
               <span className="sr-only">
                 developer, student, dad, AI enthusiast, freelancer, and future millionaire
@@ -76,26 +85,26 @@ export default function Hero() {
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-hover"
+                className="group inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 font-mono text-sm font-medium text-white shadow-sm transition-colors hover:bg-accent-hover"
               >
-                Get in touch
+                get in touch
                 <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface/50 px-5 py-3 text-sm font-semibold text-text backdrop-blur transition-colors hover:border-accent hover:text-accent"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-surface/50 px-5 py-3 font-mono text-sm font-medium text-text backdrop-blur transition-colors hover:border-accent hover:text-accent"
               >
-                View projects
+                view projects
               </a>
               {p.resumeUrl && (
                 <a
                   href={p.resumeUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-2 py-3 text-sm font-semibold text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
+                  className="inline-flex items-center gap-2 px-2 py-3 font-mono text-sm font-medium text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
                 >
                   <FiDownload />
-                  Download resume
+                  download resume
                   <FiArrowUpRight className="opacity-60" size={14} />
                 </a>
               )}
