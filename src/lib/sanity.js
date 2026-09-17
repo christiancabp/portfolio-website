@@ -11,7 +11,6 @@ export const client = createClient({
 })
 
 const builder = createImageUrlBuilder(client)
-export const urlFor = (source) => builder.image(source)
 
 export function imageUrl(source, width = 800) {
   if (!source) return ''

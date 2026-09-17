@@ -52,7 +52,7 @@ export const experiencesFixture = [
 ]
 
 export const projectsFixture = [
-  { title: 'Portfolio Site', description: 'This site — React, Vite, Tailwind, Sanity.', image: proj1, projectLink: 'https://christian-bermeo.netlify.app', codeLink: 'https://github.com/christiancabp/portfolio-website', tags: ['React JS', 'Three JS'] },
+  { title: 'Portfolio Website', description: 'This site — React, Vite, Tailwind, Sanity.', image: proj1, projectLink: 'https://cbermeo.com', codeLink: 'https://github.com/christiancabp/portfolio-website', tags: ['React', 'Vite', 'Tailwind', 'Sanity'] },
   { title: 'API Service', description: 'A Node/Express service with a typed data layer.', image: proj2, projectLink: '', codeLink: '', tags: ['APIs', 'PERN'] },
   { title: 'React App', description: 'A responsive React dashboard.', image: proj3, projectLink: '', codeLink: '', tags: ['React JS'] },
 ]

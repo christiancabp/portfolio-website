@@ -41,7 +41,7 @@ See `.env.example`. These are public, client-side values (Sanity's `projectId`/`
 
 Sections fetch their data from Sanity at runtime via `src/hooks/useSanity.js` (raw `client.fetch` + GROQ query, see `src/lib/queries.js`) wrapped by `src/hooks/useContent.js`. `useContent(query, fixture)` returns the live Sanity result, but **in dev only** (`import.meta.env.DEV`) falls back to a static fixture from `src/lib/fixtures.js` if Sanity returns empty/null — so the site is fully browsable locally even against an empty or misconfigured dataset. **Production builds never use fixtures**; if Sanity has no data, the section renders empty.
 
-Images referenced from Sanity documents are resolved with `imageUrl()` / `urlFor()` in `src/lib/sanity.js` (`@sanity/image-url`).
+Images referenced from Sanity documents are resolved with `imageUrl()` in `src/lib/sanity.js` (`@sanity/image-url`).
 
 ## Sanity Studio (content admin)
 
