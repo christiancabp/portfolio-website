@@ -97,6 +97,7 @@ Replace the `AppWrap`/`MotionWrap` HOCs with composable pieces under `src/compon
 - Content max-width ~1080px, generous whitespace, consistent section rhythm.
 - Cards with thin borders (not heavy shadows) to match the editorial feel.
 - Subtle scroll-reveal via `motion`; reduced-motion honored. No parallax/heavy effects.
+- **Landing glitch animation:** the hero headline "Hey I'm Christian, your friendly neighborhood {role}" glitch-scrambles the role on a loop between `developer, student, dad, ai-enthusiast, freelancer, future-millionaire` (text-scramble effect, accent-colored). Reduced-motion falls back to a plain word swap; an `sr-only` static sentence keeps it accessible.
 
 ---
 
