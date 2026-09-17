@@ -1075,11 +1075,152 @@ git add src/lib/format.js src/lib/format.test.js
 git commit -m "feat: add skills grouping and date-range formatting with tests"
 ```
 
+### Task 7.2: Dev fixtures + `useContent` fallback + `imageUrl` helper
+
+**Files:** Create `src/lib/content.js`, `src/lib/content.test.js`, `src/lib/fixtures.js`, `src/hooks/useContent.js`; modify `src/lib/sanity.js`.
+
+Because the Sanity backend migration (Phase 5) is deferred, sections are built against the **target** content shapes but must render realistic content now. `useContent(query, fixture)` returns Sanity data normally, but falls back to a local fixture when Sanity returns empty **and** we're in dev (`import.meta.env.DEV`). Production never shows fixtures. `imageUrl(source)` lets sections use one call for both Sanity image refs and plain fixture URL strings.
+
+- [ ] **Step 1: Write the failing test** (`src/lib/content.test.js`)
+```js
+import { describe, it, expect } from 'vitest'
+import { pickContent } from './content'
+
+describe('pickContent', () => {
+  it('returns sanity data when present', () => {
+    expect(pickContent([{ a: 1 }], ['fix'], true)).toEqual([{ a: 1 }])
+  })
+  it('falls back to fixture when empty array in dev', () => {
+    expect(pickContent([], ['fix'], true)).toEqual(['fix'])
+  })
+  it('falls back to fixture when null in dev', () => {
+    expect(pickContent(null, { x: 1 }, true)).toEqual({ x: 1 })
+  })
+  it('does NOT use fixture in production', () => {
+    expect(pickContent([], ['fix'], false)).toEqual([])
+  })
+})
+```
+- [ ] **Step 2: Run** `npm test -- content` → FAIL.
+- [ ] **Step 3: Implement `src/lib/content.js`**
+```js
+export function pickContent(data, fixture, isDev) {
+  const empty = data == null || (Array.isArray(data) && data.length === 0)
+  return empty && isDev ? fixture : data
+}
+```
+- [ ] **Step 4: Run** `npm test -- content` → PASS (4 tests).
+- [ ] **Step 5: Add `imageUrl` to `src/lib/sanity.js`** (keep the existing `client`/`urlFor`; append):
+```js
+export function imageUrl(source, width = 800) {
+  if (!source) return ''
+  if (typeof source === 'string') return source // fixture URL string
+  return builder.image(source).width(width).url() // Sanity image ref
+}
+```
+- [ ] **Step 6: Create `src/hooks/useContent.js`**
+```js
+import { useSanity } from './useSanity'
+import { pickContent } from '../lib/content'
+
+export function useContent(query, fixture, params = {}) {
+  const { data, loading, error } = useSanity(query, params)
+  return { data: pickContent(data, fixture, import.meta.env.DEV), loading, error }
+}
+```
+- [ ] **Step 7: Create `src/lib/fixtures.js`** (dev-only placeholder resume content, reusing existing images in `src/assets/`; the user replaces this with real Sanity content later):
+```js
+import avatar from '../assets/profile.png'
+import reactIcon from '../assets/react.png'
+import nodeIcon from '../assets/node.png'
+import jsIcon from '../assets/javascript.png'
+import cssIcon from '../assets/css.png'
+import htmlIcon from '../assets/html.png'
+import sassIcon from '../assets/sass.png'
+import reduxIcon from '../assets/redux.png'
+import gitIcon from '../assets/git.png'
+import proj1 from '../assets/about01.png'
+import proj2 from '../assets/about02.png'
+import proj3 from '../assets/about03.png'
+
+export const profileFixture = {
+  name: 'Christian Bermeo',
+  title: 'Software Developer',
+  tagline: 'I build fast, accessible web applications.',
+  bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic back-ends.',
+  email: 'christian.bermeo@pci.us',
+  avatar,
+  resumeUrl: '',
+  socials: [
+    { platform: 'github', url: 'https://github.com/christiancabp' },
+    { platform: 'linkedin', url: 'https://www.linkedin.com/' },
+  ],
+}
+
+export const aboutsFixture = [
+  { title: 'Front-end', description: 'React, component systems, and accessible, responsive UI.', image: proj1 },
+  { title: 'Back-end', description: 'Node APIs, data modeling, and integrations.', image: proj2 },
+  { title: 'Craft', description: 'Performance, testing, and clean, maintainable code.', image: proj3 },
+]
+
+export const experiencesFixture = [
+  {
+    role: 'Software Developer', company: 'PCI', companyUrl: 'https://www.pci.us',
+    location: 'Remote', startDate: '2023-03-01', endDate: null, current: true,
+    highlights: [
+      'Built and shipped React features used across internal tools.',
+      'Improved page performance and accessibility across the app.',
+    ],
+    logo: null,
+  },
+  {
+    role: 'Junior Developer', company: 'Freelance', companyUrl: '',
+    location: 'Remote', startDate: '2021-06-01', endDate: '2023-02-01', current: false,
+    highlights: ['Delivered client web apps end-to-end (React + Node).'],
+    logo: null,
+  },
+]
+
+export const projectsFixture = [
+  { title: 'Portfolio Site', description: 'This site — React, Vite, Tailwind, Sanity.', image: proj1, projectLink: 'https://christian-bermeo.netlify.app', codeLink: 'https://github.com/christiancabp/portfolio-website', tags: ['React JS', 'Three JS'] },
+  { title: 'API Service', description: 'A Node/Express service with a typed data layer.', image: proj2, projectLink: '', codeLink: '', tags: ['APIs', 'PERN'] },
+  { title: 'React App', description: 'A responsive React dashboard.', image: proj3, projectLink: '', codeLink: '', tags: ['React JS'] },
+]
+
+export const skillsFixture = [
+  { name: 'React', category: 'Frontend', icon: reactIcon },
+  { name: 'JavaScript', category: 'Frontend', icon: jsIcon },
+  { name: 'HTML', category: 'Frontend', icon: htmlIcon },
+  { name: 'CSS', category: 'Frontend', icon: cssIcon },
+  { name: 'Sass', category: 'Frontend', icon: sassIcon },
+  { name: 'Redux', category: 'Frontend', icon: reduxIcon },
+  { name: 'Node.js', category: 'Backend', icon: nodeIcon },
+  { name: 'Git', category: 'Tools', icon: gitIcon },
+]
+
+export const educationFixture = [
+  {
+    school: 'University', degree: 'B.S.', field: 'Computer Science', location: '',
+    startDate: '2017-09-01', endDate: '2021-05-01',
+    description: 'Focus on software engineering and web development.', logo: null,
+  },
+]
+```
+- [ ] **Step 8: Commit**
+```bash
+git add -A
+git commit -m "feat: add dev fixtures, useContent fallback, and imageUrl helper"
+```
+
 ---
 
 ## PHASE 8 — Rebuild sections (Editorial slate, dark-mode-ready)
 
 > Build each section's markup with the `frontend-design` skill. Shared requirements for every section: wrap content in `<Section>`, animate blocks with `<Reveal>`, use only token utilities (`bg-bg/surface/accent`, `text-text/muted`, `border-border`) so dark mode works automatically, be responsive (mobile-first), and handle empty/loading data gracefully (render nothing or a skeleton, never crash on `undefined`).
+>
+> **Data:** each section fetches via `useContent(QUERY, <fixture>)` (Task 7.2) so it renders realistic content in dev before the Sanity migration. **Images:** use `imageUrl(source)` from `lib/sanity` (handles both Sanity refs and fixture URL strings) — not `urlFor` directly.
+>
+> **Cleanup done in this phase:** as the old container components are deleted, also remove the now-orphaned shared code once nothing imports it — `src/wrapper/`, `src/components/NavigationDots.jsx`, `src/components/SocialMedia.jsx`, the `src/client.js` shim, `node-sass`, `framer-motion`, and every `.scss` file. Also drop the `vite.config.js` esbuild JSX override once no `.js` files contain JSX. Verify `npm run build` after removals.
 
 ### Task 8.1: Hero + glitchy landing animation
 
