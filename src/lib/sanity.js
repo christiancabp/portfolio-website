@@ -1,5 +1,5 @@
 import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+import { createImageUrlBuilder } from '@sanity/image-url'
 
 // projectId is public (not a secret); default it so a production build never
 // crashes on a missing env var. Override via VITE_SANITY_* when needed.
@@ -10,7 +10,7 @@ export const client = createClient({
   useCdn: true,
 })
 
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 export const urlFor = (source) => builder.image(source)
 
 export function imageUrl(source, width = 800) {

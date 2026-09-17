@@ -67,7 +67,7 @@ export default function Hero() {
                 <GlitchText words={ROLES} />
               </span>
               <span className="sr-only">
-                developer, student, dad, ai-enthusiast, freelancer, and future millionaire
+                developer, student, dad, AI enthusiast, freelancer, and future millionaire
               </span>
             </h1>
           </Reveal>
