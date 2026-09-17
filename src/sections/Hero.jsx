@@ -46,15 +46,7 @@ export default function Hero() {
 
       <div className="mx-auto grid w-full max-w-5xl grid-cols-1 items-center gap-12 px-6 py-24 md:grid-cols-[1fr_auto] md:gap-16 md:py-28">
         <div className="max-w-2xl">
-          <Reveal>
-            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs font-medium uppercase tracking-widest text-muted backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              Available for work
-            </p>
-          </Reveal>
+          {/* "Available for work" badge hidden for now — restore this block to re-enable it. */}
 
           <Reveal delay={0.08}>
             <h1 className="text-4xl font-bold leading-[1.05] tracking-tight text-text sm:text-5xl lg:text-6xl">
