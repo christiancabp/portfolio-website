@@ -10,6 +10,8 @@
 
 **Visual identity ("Editorial slate"):** near-monochrome slate/zinc, `#2563eb` accent (dark `#3b82f6`), Inter, minimal/timeless, thin-border cards, generous whitespace, subtle scroll reveals.
 
+**Execution order (2026-09-17):** Building **frontend first**. Execute Phases 1–4, 6, 7, 8, 9, 10. **Phase 5 (Sanity v3 migration) is deferred** until after the frontend is done — sections are built against the target content shapes but render local **dev fixtures** (Task 7.2) so the layout looks complete before the backend is migrated and content refilled.
+
 ---
 
 ## File structure (target)
