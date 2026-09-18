@@ -25,4 +25,10 @@ describe('formatDateRange', () => {
   it('shows Present when current', () => {
     expect(formatDateRange('2023-03-01', null, true)).toBe('Mar 2023 — Present')
   })
+  it('does not crash on a missing start date (renders the end only)', () => {
+    expect(formatDateRange(null, '2026-05-01', false)).toBe('May 2026')
+  })
+  it('does not crash when both dates are missing', () => {
+    expect(formatDateRange(undefined, undefined, false)).toBe('')
+  })
 })
