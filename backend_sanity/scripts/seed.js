@@ -13,6 +13,11 @@ async function img(file) {
   return {_type: 'image', asset: {_type: 'reference', _ref: asset._id}}
 }
 
+async function pdf(file, filename) {
+  const asset = await client.assets.upload('file', createReadStream(resolve(pub, file)), {filename})
+  return {_type: 'file', asset: {_type: 'reference', _ref: asset._id}}
+}
+
 const skill = (id, name, category) => ({_id: `skill-${id}`, _type: 'skill', name, category})
 
 async function run() {
@@ -24,6 +29,9 @@ async function run() {
     img('images/projects/raging-sea.png'),
     img('images/projects/charli.png'),
   ])
+
+  console.log('Uploading resume…')
+  const resumePdf = await pdf('resume/Christian Bermeo Resume 2026.pdf', 'christian-bermeo-resume.pdf')
 
   // Remove documents from earlier seed passes that are no longer in the model.
   console.log('Deleting stale documents…')
@@ -39,6 +47,7 @@ async function run() {
       tagline: 'I build fast, production-ready web and mobile apps — end to end.',
       bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.',
       email: 'hello@cbermeo.com',
+      resumePdf,
       socials: [
         {_key: 'gh', platform: 'github', url: 'https://github.com/christiancabp'},
         {_key: 'li', platform: 'linkedin', url: 'https://www.linkedin.com/in/christian-bermeo-679023185/'},
@@ -75,10 +84,14 @@ async function run() {
     skill('sql', 'SQL', 'Backend'),
     skill('mongodb', 'MongoDB', 'Backend'),
     skill('postgresql', 'PostgreSQL', 'Backend'),
+    skill('redis', 'Redis', 'Backend'),
+    skill('aws', 'AWS', 'Backend'),
     skill('git', 'Git', 'Tools'),
     skill('docker', 'Docker', 'Tools'),
     skill('openclaw', 'OpenClaw', 'Tools'),
     skill('claude-code', 'Claude Code', 'Tools'),
+    skill('devops', 'DevOps', 'Tools'),
+    skill('cicd', 'CI/CD', 'Tools'),
 
     // About (text-only)
     {_id: 'about-frontend', _type: 'about', title: 'Front-end', description: 'React, Next.js, TailwindCSS, TypeScript, component systems, and accessible, responsive UI.'},

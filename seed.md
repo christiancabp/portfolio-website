@@ -16,6 +16,7 @@ Legend: ✅ finalized · ✏️ placeholder — **confirm/replace with real info
 - **bio:** Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.
 - **email:** hello@cbermeo.com ✅
 - **avatar:** _removed — no photo for now_ ✅
+- **resume:** `public/resume/Christian Bermeo Resume 2026.pdf` → uploaded to Sanity `profile.resumePdf` (powers the "Download resume" button) ✅
 - **socials:**
   - github → https://github.com/christiancabp ✅
   - linkedin → https://www.linkedin.com/in/christian-bermeo-679023185/ ✅
@@ -110,10 +111,14 @@ expected graduation date: May 2029
 | SQL | Backend |
 | MongoDB | Backend |
 | PostgreSQL | Backend |
+| Redis | Backend |
+| AWS | Backend |
 | Git | Tools |
 | Docker | Tools |
 | OpenClaw | Tools |
 | Claude Code | Tools |
+| DevOps | Tools |
+| CI/CD | Tools |
 
 _Skill icons are rendered from **react-icons** (monochrome, theme-tinted) by name — no image files needed. To give a new skill an icon, add its name to `SKILL_ICONS` in `src/sections/Skills.jsx` (unmapped skills fall back to a generic glyph)._
 
@@ -125,4 +130,4 @@ _Note: the placeholder about images were removed; about cards now render text-on
 
 1. **Front-end** — React, Next.js, TailwindCSS, TypeScript, component systems, and accessible, responsive UI. 
 2. **Back-end** — Node.js, Django, Python, SQL databases, Caching, data modeling, and microservices. 
-3. **Tools** — Git, Docker, OpenClaw, Claude Code, AWS cloud services. 
+3. **Tools** — Git, Docker, OpenClaw, Claude Code, AWS cloud services.

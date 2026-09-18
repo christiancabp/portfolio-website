@@ -13,7 +13,7 @@ export const profileFixture = {
   tagline: 'I build fast, production-ready web and mobile apps — end to end.',
   bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.',
   email: 'hello@cbermeo.com',
-  resumeUrl: '',
+  resumeUrl: '/resume/Christian%20Bermeo%20Resume%202026.pdf',
   socials: [
     { platform: 'github', url: 'https://github.com/christiancabp' },
     { platform: 'linkedin', url: 'https://www.linkedin.com/in/christian-bermeo-679023185/' },
@@ -85,8 +85,9 @@ export const skillsFixture = [
   skill('React', 'Frontend'), skill('Next.js', 'Frontend'), skill('TailwindCSS', 'Frontend'), skill('TypeScript', 'Frontend'),
   skill('JavaScript', 'Frontend'), skill('HTML', 'Frontend'), skill('CSS', 'Frontend'), skill('Three.js', 'Frontend'),
   skill('Node.js', 'Backend'), skill('Python', 'Backend'), skill('Django', 'Backend'), skill('SQL', 'Backend'),
-  skill('MongoDB', 'Backend'), skill('PostgreSQL', 'Backend'),
+  skill('MongoDB', 'Backend'), skill('PostgreSQL', 'Backend'), skill('Redis', 'Backend'), skill('AWS', 'Backend'),
   skill('Git', 'Tools'), skill('Docker', 'Tools'), skill('OpenClaw', 'Tools'), skill('Claude Code', 'Tools'),
+  skill('DevOps', 'Tools'), skill('CI/CD', 'Tools'),
 ]
 
 export const educationFixture = [

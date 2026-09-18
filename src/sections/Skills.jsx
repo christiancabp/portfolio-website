@@ -6,9 +6,9 @@ import { SKILLS } from '../lib/queries'
 import { groupByCategory } from '../lib/format'
 import {
   SiReact, SiNextdotjs, SiTailwindcss, SiTypescript, SiJavascript, SiHtml5, SiCss,
-  SiThreedotjs, SiNodedotjs, SiPython, SiDjango, SiMongodb, SiPostgresql, SiGit, SiDocker,
+  SiThreedotjs, SiNodedotjs, SiPython, SiDjango, SiMongodb, SiPostgresql, SiGit, SiDocker, SiRedis,
 } from 'react-icons/si'
-import { FiDatabase, FiTerminal, FiCode } from 'react-icons/fi'
+import { FiDatabase, FiTerminal, FiCode, FiCloud, FiServer, FiRefreshCw } from 'react-icons/fi'
 
 // Fixed, sensible display order; only categories that have skills are rendered.
 const CATEGORY_ORDER = ['Frontend', 'Backend', 'Tools', 'Other']
@@ -35,6 +35,10 @@ const SKILL_ICONS = {
   'Docker': SiDocker,
   'OpenClaw': FiTerminal,
   'Claude Code': FiTerminal,
+  'Redis': SiRedis,
+  'AWS': FiCloud,
+  'DevOps': FiServer,
+  'CI/CD': FiRefreshCw,
 }
 
 export default function Skills() {
