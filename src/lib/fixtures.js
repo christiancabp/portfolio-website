@@ -1,6 +1,5 @@
-// Fixture images live in /public/images and are referenced by absolute URL.
-// imageUrl() passes string paths through unchanged, so these work in dev and prod.
-const avatar = '/images/profile.png'
+// Dev-only fallback content (used by useContent when Sanity is empty in dev).
+// Images are referenced by absolute URL from /public; imageUrl() passes strings through.
 const reactIcon = '/images/react.png'
 const nodeIcon = '/images/node.png'
 const jsIcon = '/images/javascript.png'
@@ -9,17 +8,18 @@ const htmlIcon = '/images/html.png'
 const sassIcon = '/images/sass.png'
 const reduxIcon = '/images/redux.png'
 const gitIcon = '/images/git.png'
-const proj1 = '/images/about01.png'
-const proj2 = '/images/about02.png'
-const proj3 = '/images/about03.png'
+
+const faceSculptingBar = '/images/projects/face-sculpting-bar.png'
+const spaceAssault = '/images/projects/space-assault.png'
+const hangman3d = '/images/projects/hangman-3d.png'
+const ragingSea = '/images/projects/raging-sea.png'
 
 export const profileFixture = {
   name: 'Christian Bermeo',
   title: 'Software Developer',
-  tagline: 'I build fast, accessible web applications.',
-  bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic back-ends.',
+  tagline: 'I build fast, accessible web apps — front to back.',
+  bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.',
   email: 'hello@cbermeo.com',
-  avatar,
   resumeUrl: '',
   socials: [
     { platform: 'github', url: 'https://github.com/christiancabp' },
@@ -28,9 +28,9 @@ export const profileFixture = {
 }
 
 export const aboutsFixture = [
-  { title: 'Front-end', description: 'React, component systems, and accessible, responsive UI.', image: proj1 },
-  { title: 'Back-end', description: 'Node APIs, data modeling, and integrations.', image: proj2 },
-  { title: 'Craft', description: 'Performance, testing, and clean, maintainable code.', image: proj3 },
+  { title: 'Front-end', description: 'React, component systems, and accessible, responsive UI.' },
+  { title: 'Back-end', description: 'Node APIs, data modeling, and integrations.' },
+  { title: 'Craft', description: 'Performance, testing, and clean, maintainable code.' },
 ]
 
 export const experiencesFixture = [
@@ -52,9 +52,46 @@ export const experiencesFixture = [
 ]
 
 export const projectsFixture = [
-  { title: 'Portfolio Website', description: 'This site — React, Vite, Tailwind, Sanity.', image: proj1, projectLink: 'https://cbermeo.com', codeLink: 'https://github.com/christiancabp/portfolio-website', tags: ['React', 'Vite', 'Tailwind', 'Sanity'] },
-  { title: 'API Service', description: 'A Node/Express service with a typed data layer.', image: proj2, projectLink: '', codeLink: '', tags: ['APIs', 'PERN'] },
-  { title: 'React App', description: 'A responsive React dashboard.', image: proj3, projectLink: '', codeLink: '', tags: ['React JS'] },
+  {
+    title: 'Face Sculpting Bar',
+    description: 'Freelance production website for a facial-sculpting & skincare studio — branding, services, and booking.',
+    image: faceSculptingBar,
+    projectLink: 'https://facesculptingbar.com',
+    codeLink: '',
+    tags: ['Next.js', 'Tailwind', 'Freelance'],
+  },
+  {
+    title: 'Space Assault',
+    description: 'A 3D arcade shooter reimagining Space Invaders, rendered in the browser with WebGL.',
+    image: spaceAssault,
+    projectLink: 'https://space-assault.vercel.app',
+    codeLink: 'https://github.com/christiancabp/space-assault',
+    tags: ['Three.js', 'React', 'WebGL'],
+  },
+  {
+    title: 'Hangman 3D',
+    description: 'A playful 3D take on the classic Hangman word game.',
+    image: hangman3d,
+    projectLink: 'https://hangman-3d.vercel.app',
+    codeLink: 'https://github.com/christiancabp/Hangman-3D',
+    tags: ['Three.js', 'Game'],
+  },
+  {
+    title: 'Raging Sea',
+    description: 'A real-time animated ocean surface driven by custom GLSL vertex & fragment shaders.',
+    image: ragingSea,
+    projectLink: 'https://raging-sea-snowy.vercel.app',
+    codeLink: 'https://github.com/christiancabp/RagingSea-threeJS',
+    tags: ['Three.js', 'GLSL', 'Shaders'],
+  },
+  {
+    title: 'C.H.A.R.L.I.',
+    description: 'A JARVIS-inspired personal AI assistant (voice + chat), built on top of OpenCLAW.',
+    image: null,
+    projectLink: '',
+    codeLink: 'https://github.com/christiancabp/CHARLI',
+    tags: ['Python', 'AI'],
+  },
 ]
 
 export const skillsFixture = [
