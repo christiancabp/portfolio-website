@@ -3,11 +3,39 @@ import Reveal from '../components/Reveal'
 import { useContent } from '../hooks/useContent'
 import { skillsFixture } from '../lib/fixtures'
 import { SKILLS } from '../lib/queries'
-import { imageUrl } from '../lib/sanity'
 import { groupByCategory } from '../lib/format'
+import {
+  SiReact, SiNextdotjs, SiTailwindcss, SiTypescript, SiJavascript, SiHtml5, SiCss,
+  SiThreedotjs, SiNodedotjs, SiPython, SiDjango, SiMongodb, SiPostgresql, SiGit, SiDocker,
+} from 'react-icons/si'
+import { FiDatabase, FiTerminal, FiCode } from 'react-icons/fi'
 
 // Fixed, sensible display order; only categories that have skills are rendered.
 const CATEGORY_ORDER = ['Frontend', 'Backend', 'Tools', 'Other']
+
+// Monochrome brand icons rendered via currentColor — theme-safe (no black-on-dark
+// logos), consistent with the terminal-editorial look, and no image assets to manage.
+// Unmapped skills fall back to a generic code glyph.
+const SKILL_ICONS = {
+  'React': SiReact,
+  'Next.js': SiNextdotjs,
+  'TailwindCSS': SiTailwindcss,
+  'TypeScript': SiTypescript,
+  'JavaScript': SiJavascript,
+  'HTML': SiHtml5,
+  'CSS': SiCss,
+  'Three.js': SiThreedotjs,
+  'Node.js': SiNodedotjs,
+  'Python': SiPython,
+  'Django': SiDjango,
+  'SQL': FiDatabase,
+  'MongoDB': SiMongodb,
+  'PostgreSQL': SiPostgresql,
+  'Git': SiGit,
+  'Docker': SiDocker,
+  'OpenClaw': FiTerminal,
+  'Claude Code': FiTerminal,
+}
 
 export default function Skills() {
   const { data: skills } = useContent(SKILLS, skillsFixture)
@@ -35,23 +63,16 @@ export default function Skills() {
                 </h3>
                 <ul className="flex flex-wrap gap-2.5">
                   {groups[category].map((skill, si) => {
-                    const icon = imageUrl(skill.icon, 48)
+                    const Icon = SKILL_ICONS[skill.name] || FiCode
                     return (
                       <li
                         key={skill.name || si}
-                        className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-sm font-medium text-text transition-colors hover:border-accent"
+                        className="group inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-sm font-medium text-text transition-colors hover:border-accent"
                       >
-                        {icon && (
-                          <img
-                            src={icon}
-                            alt=""
-                            aria-hidden="true"
-                            width={20}
-                            height={20}
-                            loading="lazy"
-                            className="h-5 w-5 shrink-0 object-contain"
-                          />
-                        )}
+                        <Icon
+                          aria-hidden="true"
+                          className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-accent"
+                        />
                         {skill.name}
                       </li>
                     )

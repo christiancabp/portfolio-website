@@ -13,62 +13,77 @@ async function img(file) {
   return {_type: 'image', asset: {_type: 'reference', _ref: asset._id}}
 }
 
-async function run() {
-  console.log('Uploading images…')
-  const [react, js, html, css, sass, redux, node, git, faceSculpting, spaceAssault, hangman, ragingSea] =
-    await Promise.all([
-      img('images/react.png'), img('images/javascript.png'), img('images/html.png'), img('images/css.png'),
-      img('images/sass.png'), img('images/redux.png'), img('images/node.png'), img('images/git.png'),
-      img('images/projects/face-sculpting-bar.png'), img('images/projects/space-assault.png'),
-      img('images/projects/hangman-3d.png'), img('images/projects/raging-sea.png'),
-    ])
+const skill = (id, name, category) => ({_id: `skill-${id}`, _type: 'skill', name, category})
 
-  // Remove stale placeholder projects from the first seed pass.
-  console.log('Deleting stale placeholder projects…')
-  await client.delete({query: `*[_type == "work" && _id in ["work-portfolio", "work-api", "work-dashboard"]]`})
+async function run() {
+  console.log('Uploading project images…')
+  const [faceSculpting, spaceAssault, hangman, ragingSea, charli] = await Promise.all([
+    img('images/projects/face-sculpting-bar.png'),
+    img('images/projects/space-assault.png'),
+    img('images/projects/hangman-3d.png'),
+    img('images/projects/raging-sea.png'),
+    img('images/projects/charli.png'),
+  ])
+
+  // Remove documents from earlier seed passes that are no longer in the model.
+  console.log('Deleting stale documents…')
+  await client.delete({
+    query: `*[_id in ["work-portfolio","work-api","work-dashboard","exp-freelance","edu-cs","skill-sass","skill-redux","about-craft"]]`,
+  })
 
   const docs = [
     {
       _id: 'profile', _type: 'profile',
-      name: 'Christian Bermeo', title: 'Software Developer',
-      tagline: 'I build fast, accessible web apps — front to back.',
+      name: 'Christian Bermeo',
+      title: 'Software Engineer / Creative Developer',
+      tagline: 'I build fast, production-ready web and mobile apps — end to end.',
       bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.',
       email: 'hello@cbermeo.com',
-      // no avatar
       socials: [
         {_key: 'gh', platform: 'github', url: 'https://github.com/christiancabp'},
-        {_key: 'li', platform: 'linkedin', url: 'https://www.linkedin.com/'},
+        {_key: 'li', platform: 'linkedin', url: 'https://www.linkedin.com/in/christian-bermeo-679023185/'},
       ],
     },
 
-    // Experience (placeholder — edit in Studio / seed.md)
-    {_id: 'exp-pci', _type: 'experience', role: 'Software Developer', company: 'PCI', companyUrl: 'https://www.pci.us', location: 'Remote', startDate: '2023-03-01', current: true, highlights: ['Built and shipped React features used across internal tools.', 'Improved performance and accessibility across the app.']},
-    {_id: 'exp-freelance', _type: 'experience', role: 'Junior Developer', company: 'Freelance', location: 'Remote', startDate: '2021-06-01', endDate: '2023-02-01', current: false, highlights: ['Delivered client web apps end-to-end (React + Node).']},
+    // Experience
+    {_id: 'exp-pci', _type: 'experience', role: 'Software Developer', company: 'PCI', companyUrl: 'https://www.pci.us', location: 'Remote', startDate: '2022-09-01', current: true, highlights: ['Design and implement end-to-end features used by real production users of an ERP system.', 'Improved user experience and accessibility across the app.']},
+    {_id: 'exp-army', _type: 'experience', role: 'Service Member', company: 'United States Army', location: 'Long Island, NY', startDate: '2020-12-01', endDate: '2021-08-01', current: false, highlights: ['Supported the New York Joint Task Force COVID-19 response at a vaccination pop-up clinic.', 'Provided operational support at the Jones Beach vaccination site and alternate care facility.']},
 
-    // Education (placeholder — edit in Studio / seed.md)
-    {_id: 'edu-cs', _type: 'education', school: 'University', degree: 'B.S.', field: 'Computer Science', startDate: '2017-09-01', endDate: '2021-05-01', description: 'Focus on software engineering and web development.'},
+    // Education
+    {_id: 'edu-njit', _type: 'education', school: 'New Jersey Institute of Technology (NJIT)', degree: 'B.S.', field: 'Computer Science', startDate: '2026-09-01', endDate: '2029-05-01', description: 'Focus on Artificial Intelligence & Robotics. Expected graduation May 2029.'},
+    {_id: 'edu-lagcc', _type: 'education', school: 'LaGuardia Community College (LAGCC)', degree: 'A.S.', field: 'Computer Science', startDate: '2017-09-01', endDate: '2026-05-01', description: 'Focus on Computer Science.'},
 
     // Projects
-    {_id: 'work-face-sculpting-bar', _type: 'work', title: 'Face Sculpting Bar', description: 'Freelance production website for a facial-sculpting & skincare studio — branding, services, and booking.', image: faceSculpting, projectLink: 'https://facesculptingbar.com', tags: ['Next.js', 'Tailwind', 'Freelance']},
-    {_id: 'work-space-assault', _type: 'work', title: 'Space Assault', description: 'A 3D arcade shooter reimagining Space Invaders, rendered in the browser with WebGL.', image: spaceAssault, projectLink: 'https://space-assault.vercel.app', codeLink: 'https://github.com/christiancabp/space-assault', tags: ['Three.js', 'React', 'WebGL']},
-    {_id: 'work-hangman-3d', _type: 'work', title: 'Hangman 3D', description: 'A playful 3D take on the classic Hangman word game.', image: hangman, projectLink: 'https://hangman-3d.vercel.app', codeLink: 'https://github.com/christiancabp/Hangman-3D', tags: ['Three.js', 'Game']},
-    {_id: 'work-raging-sea', _type: 'work', title: 'Raging Sea', description: 'A real-time animated ocean surface driven by custom GLSL vertex & fragment shaders.', image: ragingSea, projectLink: 'https://raging-sea-snowy.vercel.app', codeLink: 'https://github.com/christiancabp/RagingSea-threeJS', tags: ['Three.js', 'GLSL', 'Shaders']},
-    {_id: 'work-charli', _type: 'work', title: 'C.H.A.R.L.I.', description: 'A JARVIS-inspired personal AI assistant (voice + chat), built on top of OpenCLAW.', codeLink: 'https://github.com/christiancabp/CHARLI', tags: ['Python', 'AI']},
+    {_id: 'work-face-sculpting-bar', _type: 'work', title: 'Face Sculpting Bar', description: 'Freelance production website for a skincare studio — branding, SEO-optimized, services menu, and booking link.', image: faceSculpting, projectLink: 'https://facesculptingbar.com', tags: ['Next.js', 'TailwindCSS', 'TypeScript']},
+    {_id: 'work-space-assault', _type: 'work', title: 'Space Assault', description: 'A 3D arcade shooter reimagining Space Invaders, rendered in the browser with WebGL.', image: spaceAssault, projectLink: 'https://space-assault.vercel.app', codeLink: 'https://github.com/christiancabp/space-assault', tags: ['Three.js', 'React', 'TypeScript', 'Shaders', 'Game']},
+    {_id: 'work-hangman-3d', _type: 'work', title: 'Hangman 3D', description: 'A playful 3D take on the classic Hangman word game.', image: hangman, projectLink: 'https://hangman-3d.vercel.app', codeLink: 'https://github.com/christiancabp/Hangman-3D', tags: ['Three.js', 'React', 'TypeScript', 'Game']},
+    {_id: 'work-raging-sea', _type: 'work', title: 'Raging Sea', description: 'A real-time animated ocean surface driven by custom GLSL vertex & fragment shaders.', image: ragingSea, projectLink: 'https://raging-sea-snowy.vercel.app', codeLink: 'https://github.com/christiancabp/RagingSea-threeJS', tags: ['Three.js', 'JavaScript', 'Shaders']},
+    {_id: 'work-charli', _type: 'work', title: 'C.H.A.R.L.I.', description: 'A JARVIS-inspired personal AI assistant (voice + chat), built on top of OpenCLAW with Gemini as the brain.', image: charli, codeLink: 'https://github.com/christiancabp/CHARLI', tags: ['Python', 'OpenClaw', 'TypeScript']},
 
-    // Skills
-    {_id: 'skill-react', _type: 'skill', name: 'React', category: 'Frontend', icon: react},
-    {_id: 'skill-js', _type: 'skill', name: 'JavaScript', category: 'Frontend', icon: js},
-    {_id: 'skill-html', _type: 'skill', name: 'HTML', category: 'Frontend', icon: html},
-    {_id: 'skill-css', _type: 'skill', name: 'CSS', category: 'Frontend', icon: css},
-    {_id: 'skill-sass', _type: 'skill', name: 'Sass', category: 'Frontend', icon: sass},
-    {_id: 'skill-redux', _type: 'skill', name: 'Redux', category: 'Frontend', icon: redux},
-    {_id: 'skill-node', _type: 'skill', name: 'Node.js', category: 'Backend', icon: node},
-    {_id: 'skill-git', _type: 'skill', name: 'Git', category: 'Tools', icon: git},
+    // Skills (icons rendered from react-icons in the frontend — no image needed)
+    skill('react', 'React', 'Frontend'),
+    skill('nextjs', 'Next.js', 'Frontend'),
+    skill('tailwind', 'TailwindCSS', 'Frontend'),
+    skill('typescript', 'TypeScript', 'Frontend'),
+    skill('js', 'JavaScript', 'Frontend'),
+    skill('html', 'HTML', 'Frontend'),
+    skill('css', 'CSS', 'Frontend'),
+    skill('threejs', 'Three.js', 'Frontend'),
+    skill('node', 'Node.js', 'Backend'),
+    skill('python', 'Python', 'Backend'),
+    skill('django', 'Django', 'Backend'),
+    skill('sql', 'SQL', 'Backend'),
+    skill('mongodb', 'MongoDB', 'Backend'),
+    skill('postgresql', 'PostgreSQL', 'Backend'),
+    skill('git', 'Git', 'Tools'),
+    skill('docker', 'Docker', 'Tools'),
+    skill('openclaw', 'OpenClaw', 'Tools'),
+    skill('claude-code', 'Claude Code', 'Tools'),
 
     // About (text-only)
-    {_id: 'about-frontend', _type: 'about', title: 'Front-end', description: 'React, component systems, and accessible, responsive UI.'},
-    {_id: 'about-backend', _type: 'about', title: 'Back-end', description: 'Node APIs, data modeling, and integrations.'},
-    {_id: 'about-craft', _type: 'about', title: 'Craft', description: 'Performance, testing, and clean, maintainable code.'},
+    {_id: 'about-frontend', _type: 'about', title: 'Front-end', description: 'React, Next.js, TailwindCSS, TypeScript, component systems, and accessible, responsive UI.'},
+    {_id: 'about-backend', _type: 'about', title: 'Back-end', description: 'Node.js, Django, Python, SQL databases, caching, data modeling, and microservices.'},
+    {_id: 'about-tools', _type: 'about', title: 'Tools', description: 'Git, Docker, OpenClaw, Claude Code, and AWS cloud services.'},
   ]
 
   console.log(`Writing ${docs.length} documents…`)

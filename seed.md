@@ -11,14 +11,14 @@ Legend: ✅ finalized · ✏️ placeholder — **confirm/replace with real info
 ## Profile (singleton — `profile`)
 
 - **name:** Christian Bermeo ✅
-- **title:** Software Developer ✏️ (or e.g. "Full-stack / Creative Developer")
-- **tagline:** I build fast, accessible web and mobile apps — end to end. ✏️
-- **bio:** Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me. ✏️
+- **title:** Software Engineer / Creative Developer
+- **tagline:** I build fast, production ready web and mobile apps — end to end.
+- **bio:** Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.
 - **email:** hello@cbermeo.com ✅
 - **avatar:** _removed — no photo for now_ ✅
 - **socials:**
   - github → https://github.com/christiancabp ✅
-  - linkedin → https://www.linkedin.com/ ✏️ (add your real profile URL)
+  - linkedin → https://www.linkedin.com/in/christian-bermeo-679023185/ ✅
 
 ---
 
@@ -27,62 +27,68 @@ Legend: ✅ finalized · ✏️ placeholder — **confirm/replace with real info
 Card image = screenshot at `public/images/projects/<slug>.png` (auto-captured from the live sites).
 
 ### 1. Face Sculpting Bar `face-sculpting-bar`
-- **description:** Freelance production website for a facial-sculpting & skincare studio — branding, services, and booking. ✏️
-- **stack / tags:** [React, Freelance] (?) — confirm the real stack
+- **description:** Freelance production website for a skincare studio — branding, SEO optimized, services menu, and booking link.
+- **stack / tags:** [Next.js, TailwindCSS, TypeScript]
 - **live:** https://facesculptingbar.com
 - **repo:** https://github.com/christiancabp/face-sculpting-bar _(private)_
 - **image:** /images/projects/face-sculpting-bar.png
 
 ### 2. Space Assault `space-assault`
 - **description:** A 3D arcade shooter reimagining Space Invaders, rendered in the browser with WebGL.
-- **stack / tags:** [Three.js, WebGL, Game]
+- **stack / tags:** [Three.js, React, TypeScript, Shaders, Game]
 - **live:** https://space-assault.vercel.app/
 - **repo:** https://github.com/christiancabp/space-assault
 - **image:** /images/projects/space-assault.png
 
 ### 3. Hangman 3D `hangman-3d`
 - **description:** A playful 3D take on the classic Hangman word game.
-- **stack / tags:** [Three.js, Game]
+- **stack / tags:** [Three.js, React, TypeScript, Game]
 - **live:** https://hangman-3d.vercel.app/
 - **repo:** https://github.com/christiancabp/Hangman-3D
 - **image:** /images/projects/hangman-3d.png
 
 ### 4. Raging Sea `raging-sea`
 - **description:** A real-time animated ocean surface driven by custom GLSL vertex & fragment shaders.
-- **stack / tags:** [Three.js, GLSL, Shaders]
+- **stack / tags:** [Three.js, JavaScript, Shaders]
 - **live:** https://raging-sea-snowy.vercel.app/
 - **repo:** https://github.com/christiancabp/RagingSea-threeJS
 - **image:** /images/projects/raging-sea.png
 
 ### 5. C.H.A.R.L.I. `charli`
-- **description:** A JARVIS-inspired personal AI assistant (voice + chat), built on top of OpenCLAW. ✏️
-- **stack / tags:** [Python, AI] (?) — confirm the real stack
+- **description:** A JARVIS-inspired personal AI assistant (voice + chat), built on top of OpenCLAW with Gemini as the brain.
+- **stack / tags:** [Python, OpenClaw, TypeScript]
 - **live:** — _(no public site)_
 - **repo:** https://github.com/christiancabp/CHARLI
-- **image:** — no live site to screenshot; add a logo/screenshot manually or leave imageless
+- **image:** /images/projects/charli.png
 
 ---
 
 ## Experience (`experience`) — newest → oldest
 
-### 1. Software Developer — PCI ✏️
-- **url:** https://www.pci.us · **location:** Remote · **dates:** Mar 2023 – Present (current)
-- **highlights:** ✏️
-  - Built and shipped React features used across internal tools.
-  - Improved page performance and accessibility across the app.
+### 1. Software Developer — PCI
+- **url:** https://www.pci.us · **location:** Remote · **dates:** Sep 2022 – Present (current)
+- **highlights:** 
+  - Design and implement end to end features used by real production users of an ERP system.
+  - Improved page user experience and accessibility across the app.
 
-### 2. Junior Developer — Freelance ✏️ _(placeholder — replace with your real role/history)_
-- **location:** Remote · **dates:** Jun 2021 – Feb 2023
+### 2. Service Member — United States Army
+- **location:** Long Island, NY · **dates:** Dec 2020 – Aug 2021
 - **highlights:**
-  - Delivered client web apps end-to-end (React + Node).
+  - Worked for the New York Joint Task Force covid response mission in a vaccination pop-up clinic.
+  - Provided operational support at the Jones Beach vaccination site and alternate care facility
 
 ---
 
 ## Education (`education`)
 
-- **school:** University ✏️ (your real school) · **degree:** B.S. ✏️ · **field:** Computer Science ✏️
-- **dates:** Sep 2017 – May 2021 ✏️
-- **description:** Focus on software engineering and web development. ✏️
+- **school:** New Jersey Institute of Technology (NJIT)· **degree:** B.S.  · **field:** Computer Science 
+**dates:** Sep 2026 – Present ·
+**description:** Focus on Artificial Intelligence and Robotics. 
+expected graduation date: May 2029
+
+- **school:** LaGuardia Community College (LAGCC)· **degree:** A.S.  · **field:** Computer Science 
+**dates:** Sep 2017 – May 2026
+**description:** Focus on Computer Science.
 
 ---
 
@@ -91,15 +97,25 @@ Card image = screenshot at `public/images/projects/<slug>.png` (auto-captured fr
 | Name | Category |
 |------|----------|
 | React | Frontend |
+| Next.js | Frontend |
+| TailwindCSS | Frontend |
+| TypeScript | Frontend |
 | JavaScript | Frontend |
 | HTML | Frontend |
 | CSS | Frontend |
-| Sass | Frontend |
-| Redux | Frontend |
+| Three.js | Frontend |
 | Node.js | Backend |
+| Python | Backend |
+| Django | Backend |
+| SQL | Backend |
+| MongoDB | Backend |
+| PostgreSQL | Backend |
 | Git | Tools |
+| Docker | Tools |
+| OpenClaw | Tools |
+| Claude Code | Tools |
 
-**Suggested additions** (given your projects lean 3D/WebGL): Three.js · Frontend · GLSL/Shaders · Frontend · Vite · Tools · Python · Backend (for C.H.A.R.L.I.). ✏️
+_Skill icons are rendered from **react-icons** (monochrome, theme-tinted) by name — no image files needed. To give a new skill an icon, add its name to `SKILL_ICONS` in `src/sections/Skills.jsx` (unmapped skills fall back to a generic glyph)._
 
 ---
 
@@ -107,6 +123,6 @@ Card image = screenshot at `public/images/projects/<slug>.png` (auto-captured fr
 
 _Note: the placeholder about images were removed; about cards now render text-only (title + description)._
 
-1. **Front-end** — React, component systems, and accessible, responsive UI. ✏️
-2. **Back-end** — Node APIs, data modeling, and integrations. ✏️
-3. **Craft** — Performance, testing, and clean, maintainable code. ✏️
+1. **Front-end** — React, Next.js, TailwindCSS, TypeScript, component systems, and accessible, responsive UI. 
+2. **Back-end** — Node.js, Django, Python, SQL databases, Caching, data modeling, and microservices. 
+3. **Tools** — Git, Docker, OpenClaw, Claude Code, AWS cloud services. 
