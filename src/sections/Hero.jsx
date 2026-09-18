@@ -5,7 +5,7 @@ import { useContent } from '../hooks/useContent'
 import { profileFixture } from '../lib/fixtures'
 import { imageUrl } from '../lib/sanity'
 
-const ROLES = ['developer', 'student', 'dad', 'AI enthusiast', 'freelancer', 'future millionaire']
+const ROLES = ['developer', 'engineer', 'student', 'dad', 'AI enthusiast', 'freelancer', 'future millionaire', 'entrepreneur']
 
 export default function Hero() {
   const { data: profile } = useContent(
