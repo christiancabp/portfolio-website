@@ -92,7 +92,7 @@ function compile(gl, type, src) {
   return sh
 }
 
-export default function HalftoneField({ className = '' }) {
+export default function HalftoneField({ className = '', maxDpr = 1.5 }) {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export default function HalftoneField({ className = '' }) {
     )
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr)
     let colors = readColors()
     const mouse = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, amt: 0, tamt: 0 }
     let raf = 0
@@ -208,7 +208,7 @@ export default function HalftoneField({ className = '' }) {
       gl.deleteProgram(prog)
       gl.deleteBuffer(buf)
     }
-  }, [])
+  }, [maxDpr])
 
   return <canvas ref={canvasRef} aria-hidden="true" className={`block h-full w-full ${className}`} />
 }

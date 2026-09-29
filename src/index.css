@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Also scan the share-card template (og/), which is outside src/. */
+@source "../og";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

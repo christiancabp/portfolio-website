@@ -1,0 +1,26 @@
+<!doctype html>
+<!--
+  Share-card (Open Graph) template. Not part of the production build; Vite
+  only bundles the root index.html.
+
+  Regenerate public/og-card.png:
+    1. npm run dev
+    2. open http://localhost:5173/og/ in Chrome at a 1200x630 viewport, DPR 2
+    3. screenshot the #card element (2400x1260 PNG)
+    4. shrink it (flat colors quantize losslessly-looking; ~400KB -> ~80KB,
+       which keeps WhatsApp previews working):
+       python3 -c "from PIL import Image as I; I.open('public/og-card.png').convert('RGB').quantize(64, method=I.Quantize.MEDIANCUT, dither=I.Dither.NONE).save('public/og-card.png', optimize=True)"
+    If the image changes, rename the file (and the og:image/twitter:image
+    URLs in index.html): link-preview caches key on the URL.
+-->
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200, initial-scale=1" />
+    <title>OG card</title>
+  </head>
+  <body style="margin: 0">
+    <div id="root"></div>
+    <script type="module" src="./og.jsx"></script>
+  </body>
+</html>
