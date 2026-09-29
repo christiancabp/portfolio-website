@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { nextIndex } from '../lib/glitch'
 
-const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#'
+const GLITCH_CHARS = '!<>-_\\/[]{}%=+*^?#'
 
 export default function GlitchText({ words, interval = 2400, className = '' }) {
   const [html, setHtml] = useState(words[0])

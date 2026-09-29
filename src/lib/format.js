@@ -22,6 +22,6 @@ export function formatDateRange(start, end, current) {
   if (current) right = 'Present'
   else if (end) right = label(end)
   else if (left) right = 'Present' // has a start, no end → ongoing
-  if (left && right) return `${left} — ${right}`
+  if (left && right) return `${left} → ${right}`
   return left || right || ''
 }

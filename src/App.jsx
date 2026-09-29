@@ -1,5 +1,8 @@
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Cursor from './components/Cursor'
+import ScrollProgress from './components/ScrollProgress'
+import SignalBands from './components/SignalBands'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Experience from './sections/Experience'
@@ -10,10 +13,12 @@ import Contact from './sections/Contact'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg text-text">
+    <div className="min-h-screen overflow-x-clip bg-bg text-text">
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />
+        <SignalBands />
         <About />
         <Experience />
         <Projects />
@@ -22,6 +27,8 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <div aria-hidden="true" className="grain" />
+      <Cursor />
     </div>
   )
 }

@@ -25,7 +25,9 @@ Sanity Studio (from `backend_sanity/`): `npx sanity login` (one-time auth), then
 
 ### Styling: Tailwind v4 tokens, not SCSS
 
-Tailwind is wired in via the `@tailwindcss/vite` plugin (`vite.config.js`) — there's no `tailwind.config.js`; everything is CSS-first in `src/index.css`. Design tokens (`--bg`, `--surface`, `--text`, `--muted`, `--accent`, `--accent-hover`, `--border`) are plain CSS custom properties, redefined under `.dark`, then re-exposed as Tailwind color utilities via `@theme inline` (e.g. `--color-accent: var(--accent)` → use `text-accent`, `bg-bg`, `border-border` as normal utility classes). Because `@theme inline` reads the *live* variable, the same utility classes automatically repaint for dark mode — components never branch on theme in JS for color. There is no SCSS anywhere in this codebase.
+Tailwind is wired in via the `@tailwindcss/vite` plugin (`vite.config.js`) — there's no `tailwind.config.js`; everything is CSS-first in `src/index.css`. Design tokens (`--bg`, `--surface`, `--text`, `--muted`, `--accent`, `--accent-hover`, `--border`, `--signal`, `--ink`, `--bone`) are plain CSS custom properties, redefined under `.dark`, then re-exposed as Tailwind color utilities via `@theme inline` (e.g. `--color-accent: var(--accent)` → use `text-accent`, `bg-bg`, `border-border` as normal utility classes). Because `@theme inline` reads the *live* variable, the same utility classes automatically repaint for dark mode — components never branch on theme in JS for color. There is no SCSS anywhere in this codebase.
+
+Visual identity ("signal / arcade-industrial"): warm bone/ink palette with one vermilion. `--accent` is the **text-safe** accent (contrast-checked per theme); `--signal` is the vivid **fill** (buttons, bands, hover floods) and is always paired with `text-ink`. Don't put small `text-signal` copy on the light theme — use `text-accent`. Fonts: **Anybody** (display; its `font-stretch` 50–150% width axis is the signature — see `.display-wide` / `.display-tight` in `index.css`), **Instrument Sans** (body), **JetBrains Mono** (labels). Anybody is imported via `@fontsource-variable/anybody/wdth.css` (the default entry lacks the width axis).
 
 ### Dark mode
 
@@ -44,7 +46,11 @@ If you touch theme init logic, keep `resolveInitialTheme` and the inline `index.
 
 - **`Section`** (`src/components/Section.jsx`) — standard `<section>` shell (id, max-width, padding, optional eyebrow/title header). Sections use this for consistent spacing/anchors instead of each rolling its own layout.
 - **`Reveal`** (`src/components/Reveal.jsx`) — `motion/react` fade+slide-up on scroll into view (`whileInView`, `once: true`). This is the standard entrance animation; use it rather than ad hoc `motion.div` variants.
-- **`TimelineEntry`** (`src/components/TimelineEntry.jsx`) — shared rail/node/card layout used by both Experience and Education so the two sections render identically.
+- **`TimelineEntry`** (`src/components/TimelineEntry.jsx`) — shared ledger-row layout (date rail + title block) used by both Experience and Education so the two sections render identically.
+- **`HalftoneField`** (`src/components/HalftoneField.jsx`) — the Hero's live GLSL halftone background in raw WebGL (no Three.js). Reads `--bg`/`--signal` from CSS and repaints on theme change via a MutationObserver; pauses offscreen/hidden-tab; single still frame under reduced motion. Intentionally no `loseContext()` in cleanup (StrictMode remount reuses the canvas).
+- **`ProximityText`** — per-letter spans whose width/weight axes compress toward the cursor (math in `src/lib/proximity.js`, unit-tested). Touch devices get a CSS `breathe` wave instead.
+- **`Cursor`** — custom cursor for fine pointers only (adds `.has-cursor` to `<html>`). Any element with `data-cursor="label"` turns the ring into a labelled badge (project cards use `play`).
+- **`Marquee`** / **`SignalBands`** / **`ScrollProgress`** — seamless CSS ticker (content rendered twice, track slides −50%), the crossed tape bands under the hero, and the top scroll bar.
 - **`GlitchText`** (`src/components/GlitchText.jsx`) — the Hero's role-cycling text scrambles between words on an interval (`requestAnimationFrame`-driven), honors `prefers-reduced-motion` by snapping instead of scrambling. Cycling index math lives in `src/lib/glitch.js` (`nextIndex`) so it's unit-testable outside the animation loop.
 
 Animation uses `motion` (the Framer Motion successor package, imported from `motion/react`), not `framer-motion`.

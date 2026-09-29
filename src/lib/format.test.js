@@ -20,10 +20,10 @@ describe('groupByCategory', () => {
 
 describe('formatDateRange', () => {
   it('formats a closed range', () => {
-    expect(formatDateRange('2021-06-01', '2023-02-01', false)).toBe('Jun 2021 — Feb 2023')
+    expect(formatDateRange('2021-06-01', '2023-02-01', false)).toBe('Jun 2021 → Feb 2023')
   })
   it('shows Present when current', () => {
-    expect(formatDateRange('2023-03-01', null, true)).toBe('Mar 2023 — Present')
+    expect(formatDateRange('2023-03-01', null, true)).toBe('Mar 2023 → Present')
   })
   it('does not crash on a missing start date (renders the end only)', () => {
     expect(formatDateRange(null, '2026-05-01', false)).toBe('May 2026')

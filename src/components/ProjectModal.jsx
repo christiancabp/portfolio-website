@@ -43,7 +43,7 @@ export default function ProjectModal({ project, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={project.title}
-        className="relative flex h-[100dvh] w-full max-w-6xl flex-col overflow-hidden border border-border bg-surface shadow-2xl sm:h-[85vh] sm:rounded-xl"
+        className="relative flex h-[100dvh] w-full max-w-6xl flex-col overflow-hidden border border-border bg-surface shadow-[12px_12px_0_0_var(--signal)] sm:h-[85vh]"
         initial={{ opacity: 0, scale: 0.98, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.98 }}
@@ -53,8 +53,8 @@ export default function ProjectModal({ project, onClose }) {
         <div className="flex items-center gap-3 border-b border-border bg-bg px-4 py-2.5">
           {/* Traffic-light dots — subtle window-chrome cue */}
           <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
-            <span className="h-3 w-3 rounded-full border border-border bg-muted/30" />
-            <span className="h-3 w-3 rounded-full border border-border bg-muted/30" />
+            <span className="h-3 w-3 rounded-full bg-signal" />
+            <span className="h-3 w-3 rounded-full bg-bone/70" />
             <span className="h-3 w-3 rounded-full border border-border bg-muted/30" />
           </div>
 
@@ -90,7 +90,7 @@ export default function ProjectModal({ project, onClose }) {
         <div className="relative flex-1 bg-bg">
           <iframe
             src={project.projectLink}
-            title={`${project.title} — live preview`}
+            title={`${project.title} live preview`}
             className={`h-full w-full border-0 transition-opacity duration-500 ${
               loaded ? 'opacity-100' : 'opacity-0'
             }`}

@@ -31,7 +31,7 @@ export default function Education() {
               dateRange={formatDateRange(item.startDate, item.endDate, false)}
             >
               {item.description && (
-                <p className="text-sm leading-relaxed text-muted">
+                <p className="text-[0.95rem] leading-relaxed text-text/75">
                   {item.description}
                 </p>
               )}

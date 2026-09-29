@@ -2,24 +2,31 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Signal / arcade-industrial palette: warm bone paper + ink, one loud vermilion.
+   --accent is the TEXT-safe accent (contrast-checked per theme); --signal is the
+   vivid FILL used for buttons, bands and hover floods, always paired with ink text. */
 :root {
-  --bg: #fafafa;
-  --surface: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --border: #e2e8f0;
+  --bg: #efebe2;
+  --surface: #f7f4ee;
+  --text: #121110;
+  --muted: #6b665e;
+  --accent: #c2340a;
+  --accent-hover: #9e2a07;
+  --border: #d6d0c4;
+  --signal: #ff4f1a;
+  --ink: #0e0d0c;
+  --bone: #ede8de;
 }
 
 .dark {
-  --bg: #0b1120;
-  --surface: #111a2e;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --accent: #3b82f6;
-  --accent-hover: #60a5fa;
-  --border: #1e293b;
+  --bg: #0c0b0a;
+  --surface: #151412;
+  --text: #ede8de;
+  --muted: #8e887d;
+  --accent: #ff5a24;
+  --accent-hover: #ff7a4d;
+  --border: #2a2724;
+  --signal: #ff4f1a;
 }
 
 /* Expose CSS vars as Tailwind color/font utilities (bg-bg, text-text, etc.).
@@ -32,7 +39,11 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-border: var(--border);
-  --font-sans: "InterVariable", ui-sans-serif, system-ui, sans-serif;
+  --color-signal: var(--signal);
+  --color-ink: var(--ink);
+  --color-bone: var(--bone);
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Anybody Variable", "Instrument Sans Variable", ui-sans-serif, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -47,15 +58,55 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Terminal-editorial signature: selected text picks up the accent, like a
-   highlighted range in an editor. White reads well on both accent shades. */
 ::selection {
-  background-color: var(--accent);
-  color: #ffffff;
+  background-color: var(--signal);
+  color: var(--ink);
 }
 
-/* Blinking terminal caret. Steps() gives it a hard on/off, not a fade. Gated
-   behind prefers-reduced-motion below so it holds steady when motion is off. */
+/* Display type presets. Anybody's width axis (font-stretch 50–150%) is the
+   typographic signature: ultra-wide heavy caps for headlines. */
+.display-wide {
+  font-family: var(--font-display);
+  font-stretch: 150%;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+.display-tight {
+  font-family: var(--font-display);
+  font-stretch: 62%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* Hollow outline type for oversized numerals and the footer wordmark. */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--text);
+}
+.text-outline-muted {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+}
+
+/* Film-grain overlay: a static SVG turbulence tile — zero runtime cost, but it
+   kills the flat "template" look of solid fills. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark .grain {
+  opacity: 0.09;
+  mix-blend-mode: screen;
+  filter: invert(1);
+}
+
+/* Blinking terminal caret. Steps() gives it a hard on/off, not a fade. */
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -64,8 +115,32 @@ body {
   animation: blink 1.1s steps(1, end) infinite;
 }
 
-/* Typed-underline hover: a mono/terminal take on the animated underline —
-   it grows in from the left like a cursor sweeping the word. */
+/* Infinite marquee: the track holds two identical copies, so translating by
+   -50% lands exactly where it started — a seamless loop. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 30s) linear infinite;
+}
+.marquee-reverse .marquee-track {
+  animation-direction: reverse;
+}
+
+/* Touch fallback for the hero name: letters breathe along the width axis in a
+   staggered wave, since there's no cursor to react to. */
+@keyframes breathe {
+  0%, 100% { font-stretch: 150%; font-weight: 850; }
+  50% { font-stretch: 85%; font-weight: 500; }
+}
+@media (pointer: coarse) {
+  .letter-wave-touch {
+    animation: breathe 3.6s ease-in-out infinite;
+  }
+}
+
+/* Typed-underline hover: grows in from the left like a cursor sweeping the word. */
 .link-underline {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
@@ -78,11 +153,36 @@ body {
   background-size: 100% 1px;
 }
 
+/* Custom cursor: only enabled (via .has-cursor on <html>) for fine pointers.
+   Form fields keep their native I-beam. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor iframe {
+  cursor: auto !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   .caret-blink { animation: none !important; opacity: 1; }
-  /* No animated sweep under reduced motion — show the underline statically. */
+  .marquee-track { animation: none !important; }
+  .letter-wave-touch { animation: none !important; }
   .link-underline { transition: none; }
   .link-underline:hover,
   .link-underline:focus-visible { background-size: 100% 1px; }
+}
+
+/* Browser autofill paints its own (blue/yellow) field background. Repaint it
+   with the form surface via an inset shadow, the only override browsers honor. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--surface) inset;
+  caret-color: var(--text);
+  transition: background-color 9999s ease-out 0s;
 }

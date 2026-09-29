@@ -8,7 +8,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-      className="rounded-md border border-border p-2 text-muted transition-colors hover:text-accent"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted transition-all hover:rotate-45 hover:border-signal hover:text-accent"
     >
       {theme === 'dark' ? <FiSun /> : <FiMoon />}
     </button>

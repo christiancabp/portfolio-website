@@ -28,15 +28,15 @@ export default function Experience() {
               dateRange={formatDateRange(item.startDate, item.endDate, item.current)}
             >
               {Array.isArray(item.highlights) && item.highlights.length > 0 && (
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {item.highlights.map((h, hi) => (
                     <li
                       key={hi}
-                      className="flex gap-2.5 text-sm leading-relaxed text-muted"
+                      className="flex gap-3 text-[0.95rem] leading-relaxed text-text/75"
                     >
                       <span
                         aria-hidden="true"
-                        className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"
+                        className="mt-[0.6em] h-1.5 w-1.5 shrink-0 bg-signal"
                       />
                       <span>{h}</span>
                     </li>

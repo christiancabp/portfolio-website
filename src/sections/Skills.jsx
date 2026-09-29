@@ -58,26 +58,33 @@ export default function Skills() {
       {categories.length === 0 ? (
         <p className="text-muted">No skills to show yet.</p>
       ) : (
-        <div className="space-y-10">
+        <div className="space-y-14">
           {categories.map((category, ci) => (
             <Reveal key={category} delay={ci * 0.06}>
-              <div>
-                <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
-                  <span className="text-accent/50">#</span> {category}
+              <div className="grid gap-5 md:grid-cols-[14rem_1fr] md:gap-10">
+                <h3 className="flex items-baseline gap-3 md:flex-col md:gap-1">
+                  <span className="display-wide text-2xl text-text sm:text-3xl">{category}</span>
+                  <span className="font-mono text-xs text-muted">
+                    <span className="text-accent">{String(groups[category].length).padStart(2, '0')}</span> tools
+                  </span>
                 </h3>
-                <ul className="flex flex-wrap gap-2.5">
+                {/* Tile grid with shared 1px rules: gap-px over a border-colored
+                    background draws the grid lines without doubled borders. */}
+                <ul className="grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-3 lg:grid-cols-4">
                   {groups[category].map((skill, si) => {
                     const Icon = SKILL_ICONS[skill.name] || FiCode
                     return (
                       <li
                         key={skill.name || si}
-                        className="group inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-sm font-medium text-text transition-colors hover:border-accent"
+                        className="group relative flex h-24 flex-col sm:h-28 justify-between overflow-hidden bg-bg p-4 transition-colors duration-200 hover:bg-signal"
                       >
                         <Icon
                           aria-hidden="true"
-                          className="h-4 w-4 shrink-0 text-muted transition-colors group-hover:text-accent"
+                          className="h-6 w-6 text-muted transition-all duration-300 group-hover:-rotate-12 group-hover:scale-125 group-hover:text-ink"
                         />
-                        {skill.name}
+                        <span className="font-mono text-sm font-medium text-text transition-colors group-hover:text-ink">
+                          {skill.name}
+                        </span>
                       </li>
                     )
                   })}

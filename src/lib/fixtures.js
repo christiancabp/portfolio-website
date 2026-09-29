@@ -10,7 +10,7 @@ const charli = '/images/projects/charli.png'
 export const profileFixture = {
   name: 'Christian Bermeo',
   title: 'Software Engineer / Creative Developer',
-  tagline: 'I build fast, production-ready web and mobile apps — end to end.',
+  tagline: 'I build fast, production-ready web and mobile apps, end to end.',
   bio: 'Full-stack developer focused on clean, performant React front-ends and pragmatic, well-tested back-ends. The details matter to me.',
   email: 'hello@cbermeo.com',
   resumeUrl: '/resume/Christian%20Bermeo%20Resume%202026.pdf',
@@ -50,7 +50,7 @@ export const experiencesFixture = [
 export const projectsFixture = [
   {
     title: 'Face Sculpting Bar',
-    description: 'Freelance production website for a skincare studio — branding, SEO-optimized, services menu, and booking link.',
+    description: 'Freelance production website for a skincare studio with branding, SEO-optimized pages, a services menu, and a booking link.',
     image: faceSculptingBar, projectLink: 'https://facesculptingbar.com', codeLink: '',
     tags: ['Next.js', 'TailwindCSS', 'TypeScript'],
   },
